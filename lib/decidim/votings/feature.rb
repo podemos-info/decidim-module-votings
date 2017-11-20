@@ -2,7 +2,7 @@
 
 Decidim.register_feature(:votings) do |feature|
   feature.engine = Decidim::Votings::Engine
-  feature.icon = "decidim/<engine_name>/icon.svg"
+  feature.icon = "decidim/votings/icon.svg"
 
   feature.on(:before_destroy) do |instance|
     # Code executed before removing the feature
