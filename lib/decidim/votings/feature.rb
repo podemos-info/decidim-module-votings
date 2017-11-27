@@ -2,14 +2,20 @@
 
 Decidim.register_feature(:votings) do |feature|
   feature.engine = Decidim::Votings::Engine
+  feature.admin_engine = Decidim::Votings::AdminEngine
   feature.icon = "decidim/votings/icon.svg"
 
   feature.on(:before_destroy) do |instance|
     # Code executed before removing the feature
   end
 
+  feature.register_resource do |resource|
+    resource.model_class_name = 'Decidim::Votings::Voting'
+    resource.template = 'decidim/votings/votings/linked_votings'
+  end
+
 # These actions permissions can be configured in the admin panel
-  feature.actions = %w()
+  feature.actions = %w(vote register_in_census)
 
   feature.settings(:global) do |settings|
     # Add your global settings
@@ -19,6 +25,7 @@ Decidim.register_feature(:votings) do |feature|
 
   feature.settings(:step) do |settings|
     # Add your settings per step
+    settings.attribute :votings_allowed, type: :boolean, default: true
   end
 
 # # Register an optional resource that can be referenced from other resources.
