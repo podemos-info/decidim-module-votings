@@ -1,0 +1,5 @@
+<div class="card card--list voting-list">
+  <% @votings.each do |voting| %>
+    <%= render partial: 'voting', locals: { voting: voting } %>
+  <% end %>
+</div>

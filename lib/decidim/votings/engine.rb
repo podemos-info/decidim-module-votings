@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "rails"
-require "active_support/all"
+require 'rails'
+require 'active_support/all'
 
-require "decidim/core"
+require 'decidim/core'
 
 module Decidim
   module Votings
@@ -11,8 +11,14 @@ module Decidim
     class Engine < ::Rails::Engine
       isolate_namespace Decidim::Votings
 
-      initializer "decidim_votings.assets" do |app|
-        app.config.assets.precompile += %w(decidim_votings_manifest.js)
+      routes do
+        resources :votings, only: %i[index show]
+
+        root to: 'votings#index'
+      end
+
+      initializer 'decidim_votings.assets' do |app|
+        app.config.assets.precompile += %w[decidim_votings_manifest.js]
       end
     end
   end

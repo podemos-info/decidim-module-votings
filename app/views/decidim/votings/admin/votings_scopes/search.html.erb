@@ -1,0 +1,1 @@
+<%= options_for_select scopes.map { |scope| [translated_attribute(scope.name), scope.id] }.prepend(['', nil]), params[:selected] %>

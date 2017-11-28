@@ -1,0 +1,11 @@
+<div id="voting-<%= voting.id %>-item" class="card--list__item">
+  <div class="card--list__text">
+    <div>
+      <%= link_to voting, class: 'card__link' do %>
+        <h5 class="card__title voting-list__title">
+          <%= translated_attribute voting.title %>
+        </h5>
+      <% end %>
+    </div>
+  </div>
+</div>
