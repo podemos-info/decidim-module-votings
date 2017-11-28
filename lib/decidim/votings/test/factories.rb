@@ -16,5 +16,4 @@ FactoryGirl.define do
     status 'simulation'
     feature { create(:voting_feature) }
   end
-
 end

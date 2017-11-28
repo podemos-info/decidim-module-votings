@@ -26,6 +26,7 @@ module Decidim
         validates :title, translatable_presence: true
         validates :description, translatable_presence: true
         validates :image, file_size: { less_than_or_equal_to: ->(_image) { Decidim.maximum_attachment_size } }
+        validates :importance, numericality: { only_integer: true }
 
         validate :voting_range_in_process_bounds
 
@@ -38,17 +39,15 @@ module Decidim
         # Validates that start_date and end_date are inside participatory process bounds.
         def voting_range_in_process_bounds
           return unless steps?
-          return if included_in_steps?(start_date) && included_in_steps?(end_date)
 
-          errors.add(
-            :active_until,
-            I18n.t(
-              'voting.voting_range.outside_process_range',
-              scope: 'activemodel.errors'
-            )
-          )
+          unless included_in_steps?(start_date)
+            errors.add(:start_date, I18n.t('activemodel.errors.voting.voting_range.outside_process_range'))
+          end
+
+          unless included_in_steps?(end_date)
+            errors.add(:end_date, I18n.t('activemodel.errors.voting.voting_range.outside_process_range'))
+          end
         end
-
 
         def included_in_steps?(date)
           return true if date.blank?
@@ -56,7 +55,7 @@ module Decidim
             step_range = step.start_date..step.end_date
             step_range.include? date
           end
-          steps_containing_date.any?
+          steps.empty? || steps_containing_date.any?
         end
 
         def steps?

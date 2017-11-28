@@ -12,7 +12,7 @@ module Decidim
 
       feature_manifest_name 'votings'
 
-      enum status: { simulation: 0, live: 1}
+      enum status: { simulation: 0, live: 1 }
 
       mount_uploader :image, Decidim::ImageUploader
 
@@ -20,9 +20,7 @@ module Decidim
 
       validates :image, file_size: { less_than_or_equal_to: ->(_attachment) { Decidim.maximum_attachment_size } }
 
-
       scope :for_feature, ->(feature) { where(feature: feature) }
-
     end
   end
 end

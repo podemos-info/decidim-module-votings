@@ -15,7 +15,6 @@ module Decidim
           @context = context
 
           can :search, Decidim::Scope
-
         end
 
         private

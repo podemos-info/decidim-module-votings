@@ -9,8 +9,7 @@ module Decidim
       helper_method :voting
       helper Decidim::PaginateHelper
 
-      def show
-      end
+      def show; end
 
       def index
         @votings = Voting.all
@@ -21,7 +20,6 @@ module Decidim
       def voting
         @voting ||= Voting.find(params[:id])
       end
-
     end
   end
 end

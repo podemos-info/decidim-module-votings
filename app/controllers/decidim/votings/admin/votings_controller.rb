@@ -42,7 +42,6 @@ module Decidim
               render action: 'edit'
             end
           end
-
         end
 
         def destroy

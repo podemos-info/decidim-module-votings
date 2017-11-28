@@ -11,7 +11,6 @@ module Decidim
         def initialize(form)
           @form = form
         end
-
       end
     end
   end

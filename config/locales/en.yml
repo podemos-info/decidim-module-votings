@@ -51,22 +51,22 @@ en:
               other: Votaciones
         votings:
           form:
-            start_date_help: Fecha de inicio
-            end_date_help: Fecha de fin
-            census_date_limit_help: Fecha de cierre del censo, la cual fijará el censo de votantes a todos los inscritos en el ámbito territorial de la votación en ese momento.
+            start_date_help: Start date
+            end_date_help: End date
+            census_date_limit_help: Census closing date.
           index:
-            title: Votaciones
+            title: Votings
           new:
-            title: Nueva votación
-            create: Crear
+            title: New voting
+            create: Create
           edit:
-            title: Editar votación
-            update: Actualizar
+            title: Edit voting
+            update: Update
           create:
-            invalid: No se pudo crear la votación. Comprueba los datos y corrige los errores.
-            success: La votación ha sido correctamente creada.
+            invalid: Voting can't be created. Check the form data and correct the errors.
+            success: Voting created successfully.
           update:
-            invalid: No se pudo actualizar la votación. Comprueba los datos y corrige los errores.
-            success: La votación ha sido correctamente actualizada.
+            invalid: Voting can't be updated. Check the form data and correct the errors.
+            success: Voting updated successfully.
           destroy:
-            success: La votación ha sido correctamente borrada.
+            success: Voting has been successfully erased.

@@ -4,4 +4,4 @@ pkg/
 
 
 .idea/
-
+.rubocop.yml

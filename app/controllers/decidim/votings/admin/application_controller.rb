@@ -13,9 +13,9 @@ module Decidim
 
         def votings
           @votings ||= Voting
-                              .for_feature(current_feature)
-                              .page(params[:page])
-                              .per(Decidim::Votings.votings_shown_per_page)
+                       .for_feature(current_feature)
+                       .page(params[:page])
+                       .per(Decidim::Votings.votings_shown_per_page)
         end
 
         def voting

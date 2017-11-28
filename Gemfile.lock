@@ -3,6 +3,7 @@ PATH
   specs:
     decidim-votings (0.1.0)
       decidim-core (>= 0.7.0, <= 0.8.0)
+      pg
       rails (~> 5.1.4)
       rectify
 
@@ -386,6 +387,7 @@ GEM
     parser (2.4.0.2)
       ast (~> 2.3)
     pg (0.21.0)
+    phantomjs (2.1.1.0)
     poltergeist (1.16.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -560,10 +562,13 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  byebug
   decidim (>= 0.7.0, <= 0.8.0)
   decidim-dev
   decidim-votings!
   faker
+  pg
+  phantomjs
 
 RUBY VERSION
    ruby 2.4.2p198

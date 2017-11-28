@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "rails"
-require "active_support/all"
+require 'rails'
+require 'active_support/all'
 
-require "decidim/core"
+require 'decidim/core'
 
 module Decidim
   module Votings
@@ -17,8 +17,8 @@ module Decidim
         root to: 'votings#index'
       end
 
-      initializer "decidim_votings.assets" do |app|
-        app.config.assets.precompile += %w(decidim_votings_manifest.js)
+      initializer 'decidim_votings.assets' do |app|
+        app.config.assets.precompile += %w[decidim_votings_manifest.js]
       end
     end
   end
