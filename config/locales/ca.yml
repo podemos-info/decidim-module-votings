@@ -11,7 +11,7 @@ es:
         start_date: Data d'inici
         end_date: Data de fi
         image: Imatge
-        scope_type: Tipus d'àmbit
+        scopes_enabled: Àmbit habilitat
         decidim_scope: Àmbit
         status: Estat
         statuses:
@@ -21,6 +21,8 @@ es:
         importance: Importància
         voting_system: Sistema de votació
         voting_url: URL
+        voting_identifier: Identificador
+        shared_key: Clau compartida
         system_configuration: Configuració
   decidim:
     features:

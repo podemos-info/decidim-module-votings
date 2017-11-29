@@ -8,7 +8,7 @@ module Decidim
       include Decidim::Resourceable
       include Decidim::HasFeature
       include Decidim::Followable
-      include Decidim::Scopable
+      include Decidim::HasScope
 
       feature_manifest_name 'votings'
 
@@ -16,7 +16,7 @@ module Decidim
 
       mount_uploader :image, Decidim::ImageUploader
 
-      store_accessor :system_configuration, :voting_url
+      store_accessor :system_configuration, :voting_url, :voting_identifier, :shared_key
 
       validates :image, file_size: { less_than_or_equal_to: ->(_attachment) { Decidim.maximum_attachment_size } }
 
