@@ -3,7 +3,7 @@ en:
     errors:
       voting:
         voting_range:
-          outside_process_range: La fecha esta fuera del intervalo de tiempo del proceso participativo.
+          outside_process_range: Date is outside process range.
     attributes:
       voting:
         title: Title
@@ -11,7 +11,7 @@ en:
         start_date: Start date
         end_date: End date
         image: Image
-        scope_type: Scope type
+        scopes_enabled: Scopes enabled
         decidim_scope: Scope
         status: Status
         statuses:
@@ -21,6 +21,8 @@ en:
         importance: Importance
         voting_system: Voting system
         voting_url: URL
+        voting_identifier: Identifier
+        shared_key: Shared Key
         system_configuration: Voting system configuration
   decidim:
     features:

@@ -30,19 +30,22 @@ module Decidim
         attr_reader :voting
 
         def update_voting
-          voting.update_attributes!(
+          attrs = {
             title: form.title,
             description: form.description,
             image: form.image,
             start_date: form.start_date,
             end_date: form.end_date,
-            decidim_scope_id: form.decidim_scope_id,
+            scope: form.scopes_enabled ? form.scope : nil,
             importance: form.importance,
             census_date_limit: form.census_date_limit,
             status: form.status,
             voting_system: form.voting_system,
-            voting_url: form.voting_url
-          )
+            voting_url: form.voting_url,
+            voting_identifier: form.voting_identifier
+          }
+          attrs[:shared_key] = form.shared_key if form.shared_key.present?
+          voting.update_attributes!(attrs)
         end
       end
     end

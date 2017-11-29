@@ -22,49 +22,27 @@
 
     <div class="row">
       <div class="columns xlarge-6">
-        <%= form.date_field :start_date %>
+        <%= form.datetime_field :start_date %>
         <p class="help-text"><%=t '.start_date_help' %></p>
       </div>
 
       <div class="columns xlarge-6">
-        <%= form.date_field :end_date %>
+        <%= form.datetime_field :end_date %>
         <p class="help-text"><%=t '.end_date_help' %></p>
       </div>
     </div>
 
-    <div class="row">
-      <div class="columns xlarge-6">
-        <%= form.select :scope_type_id,
-                        scope_type_options(form.object.scope_type_id),
-                        {},
-                        {
-                            disabled: false,
-                            class: 'dependable',
-                            'data-selector': 'voting_decidim_scope_id',
-                            'data-scope-id': form.object.decidim_scope_id,
-                            'data-scope-search-url': votings_scopes_search_url
-                        } %>
-
-
-        <%#= form.select :type_id,
-                        initiative_type_options,
-                        {},
-                        {
-                            disabled: true,
-                            'data-scope-selector': 'initiative_decidim_scope_id',
-                            'data-scope-id': current_initiative.scope.id,
-                            'data-scope-search-url': decidim_initiatives.initiative_type_scopes_search_url
-                        } %>
-      </div>
-
-      <div class="columns xlarge-6">
-        <%= form.select :decidim_scope_id, scope_options(form.object.decidim_scope_id), { include_blank: true }, { disabled: false} %>
-      </div>
-
+    <div class="row column">
+      <%= form.check_box :scopes_enabled %>
     </div>
+
+    <div class="row column">
+      <%= form.scopes_select :decidim_scope_id, prompt: t("decidim.scopes.global"), remote_path: decidim.scopes_search_path %>
+    </div>
+
     <div class="row" >
       <div class="columns xlarge-6">
-        <%= form.date_field :census_date_limit %>
+        <%= form.datetime_field :census_date_limit %>
         <p class="help-text"><%=t '.census_date_limit_help' %></p>
       </div>
 
@@ -79,6 +57,16 @@
 
       <div class="columns xlarge-6">
         <%= form.url_field :voting_url %>
+      </div>
+    </div>
+
+    <div class="row" >
+      <div class="columns xlarge-6">
+        <%= form.text_field :voting_identifier %>
+      </div>
+
+      <div class="columns xlarge-6">
+        <%= form.password_field :shared_key %>
       </div>
     </div>
 

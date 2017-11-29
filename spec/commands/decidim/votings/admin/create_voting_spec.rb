@@ -22,12 +22,15 @@ module Decidim
         let(:image) { Decidim::Dev.test_file('city.jpeg', 'image/jpeg') }
         let(:start_date) { (Date.today + 1.days).strftime('%Y-%m-%d') }
         let(:end_date) { (Date.today + 5.days).strftime('%Y-%m-%d') }
-        let(:decidim_scope_id) { 5 }
+        let(:scope) {create :scope, organization: organization}
+        let(:scope_id) {scope.id}
         let(:importance) { ::Faker::Number.number(2).to_i }
         let(:census_date_limit) { Date.today.strftime('%Y-%m-%d') }
         let(:status) { 'simulation' }
         let(:voting_system) { 'nVotes' }
         let(:voting_url) { 'https://test.org' }
+        let(:voting_identifier) {'identifier'}
+        let(:shared_key) {'SHARED_KEY'}
         let(:form) do
           double(
             invalid?: invalid,
@@ -36,13 +39,16 @@ module Decidim
             image: image,
             start_date: start_date,
             end_date: end_date,
-            decidim_scope_id: decidim_scope_id,
+            scopes_enabled: true,
+            scope: scope,
             importance: importance,
             census_date_limit: census_date_limit,
             status: status,
             voting_system: voting_system,
             voting_url: voting_url,
-            current_feature: current_feature
+            current_feature: current_feature,
+            voting_identifier: voting_identifier,
+            shared_key: shared_key
           )
         end
         let(:invalid) { false }
@@ -75,7 +81,7 @@ module Decidim
             expect(project.image.path.split('/').last).to eq 'city.jpeg'
             expect(project.start_date.strftime('%Y-%m-%d')).to eq start_date
             expect(project.end_date.strftime('%Y-%m-%d')).to eq end_date
-            expect(project.decidim_scope_id).to eq decidim_scope_id
+            expect(project.decidim_scope_id).to eq scope_id
             expect(project.importance).to eq importance
             expect(project.census_date_limit.strftime('%Y-%m-%d')).to eq census_date_limit
             expect(project.status).to eq status

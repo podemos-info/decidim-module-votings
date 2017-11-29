@@ -12,7 +12,6 @@ module Decidim
 
       routes do
         resources :votings
-        get '/votings_scopes/search', to: 'votings_scopes#search', as: :votings_scopes_search
 
         root to: 'votings#index'
       end

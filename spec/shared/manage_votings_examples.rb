@@ -1,13 +1,6 @@
 # frozen_string_literal: true
 
 shared_examples 'manage votings' do
-  let(:start_date) do
-    current_feature.participatory_space.steps.first.start_date.strftime('%Y-%m-%d')
-  end
-
-  let(:end_date) do
-    current_feature.participatory_space.steps.last.end_date.strftime('%Y-%m-%d')
-  end
 
   context 'creates a new voting' do
     before do
@@ -47,8 +40,16 @@ shared_examples 'manage votings' do
 
       fill_in :voting_importance, with: '1'
 
-      find(:xpath, "//input[@id='voting_start_date']", visible: false).set start_date
-      find(:xpath, "//input[@id='voting_end_date']", visible: false).set end_date
+      page.execute_script("$('#datetime_field_voting_start_date').focus()")
+      page.find(".datepicker-dropdown .day", text: "12").click
+      page.find(".datepicker-dropdown .hour", text: "10:00").click
+      page.find(".datepicker-dropdown .minute", text: "10:50").click
+
+      page.execute_script("$('#datetime_field_voting_end_date').focus()")
+      page.find(".datepicker-dropdown .day", text: "12").click
+      page.find(".datepicker-dropdown .hour", text: "12:00").click
+      page.find(".datepicker-dropdown .minute", text: "12:50").click
+
 
       within '.new_voting' do
         find('*[type=submit]').click
@@ -103,9 +104,19 @@ shared_examples 'manage votings' do
         )
         fill_in :voting_importance, with: '1'
 
-        find(:xpath, "//input[@id='voting_start_date']", visible: false).set start_date
-        find(:xpath, "//input[@id='voting_end_date']", visible: false).set end_date
+      end
 
+      page.execute_script("$('#datetime_field_voting_start_date').focus()")
+      page.find(".datepicker-dropdown .day", text: "12").click
+      page.find(".datepicker-dropdown .hour", text: "10:00").click
+      page.find(".datepicker-dropdown .minute", text: "10:50").click
+
+      page.execute_script("$('#datetime_field_voting_end_date').focus()")
+      page.find(".datepicker-dropdown .day", text: "12").click
+      page.find(".datepicker-dropdown .hour", text: "12:00").click
+      page.find(".datepicker-dropdown .minute", text: "12:50").click
+
+      within '.edit_voting' do
         find('*[type=submit]').click
       end
 

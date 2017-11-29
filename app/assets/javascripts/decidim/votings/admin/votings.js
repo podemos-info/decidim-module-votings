@@ -3,35 +3,15 @@
 $(document).ready(function () {
   'use strict';
 
-  var typeSelector = $('.votings .dependable'),
-    refresh,
-    targetElement,
-    currentValue,
-    searchUrl;
+  var $votingScopesEnabled = $('#voting_scopes_enabled');
+  var $votingDecidimScopeId = $("#voting_decidim_scope_id");
 
-  if (typeSelector.length) {
-    targetElement = $('#' + typeSelector.data('selector'));
-    currentValue = typeSelector.data('scope-id');
-    searchUrl = typeSelector.data('scope-search-url');
-
-    if (targetElement.length) {
-      refresh = function () {
-        $.ajax({
-          url: searchUrl,
-          cache: false,
-          dataType: 'html',
-          data: {
-            type_id: $(this).val(),
-            selected: currentValue
-          },
-          success: function (data) {
-            targetElement.html(data);
-          }
-        });
-      };
-
-      typeSelector.change(refresh);
-    }
+  if ($('.edit_voting, .new_voting').length > 0) {
+    $votingScopesEnabled.on('change', function (event) {
+      var checked = event.target.checked;
+      $votingDecidimScopeId.attr("disabled", !checked);
+    });
+    $votingDecidimScopeId.attr("disabled", !$votingScopesEnabled.prop('checked'));
   }
 
 });
