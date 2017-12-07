@@ -21,7 +21,7 @@ module Decidim
         attribute :importance, Integer
         attribute :census_date_limit, Decidim::Attributes::TimeWithZone
         attribute :voting_system, String
-        attribute :voting_url, String
+        attribute :voting_domain_name, String
         attribute :voting_identifier, String
         attribute :shared_key, String
 
@@ -48,7 +48,8 @@ module Decidim
 
         def scope
           return unless current_feature
-          @scope ||= current_feature.scopes.where(id: decidim_scope_id).first || process_scope
+          return process_scope if !scopes_enabled || decidim_scope_id.blank?
+          @scope ||= (process_scope.try(:descendants) || current_feature.scopes).where(id: decidim_scope_id).first
         end
 
         private

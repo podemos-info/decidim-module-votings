@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  date:
+    formats:
+      timepicker: 'dd-mm-yyyy'

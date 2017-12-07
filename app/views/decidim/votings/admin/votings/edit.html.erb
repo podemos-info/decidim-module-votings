@@ -1,3 +1,8 @@
+<div class="row column" >
+  <%= t '.simulation_address' %>:
+  <a href="<%= "#{resource_locator(voting).path}?key=#{voting.get_hash}" %>"><%= "#{resource_locator(voting).path}?key=#{voting.get_hash}" %></a>
+</div>
+
 <%=  decidim_form_for(@form, html: { class: 'form edit_voting' }) do |f| %>
     <%= render partial: 'form', object: f, locals: { title: t('.title') } %>
 

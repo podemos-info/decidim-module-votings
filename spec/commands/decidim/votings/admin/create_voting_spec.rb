@@ -28,7 +28,7 @@ module Decidim
         let(:census_date_limit) { Date.today.strftime('%Y-%m-%d') }
         let(:status) { 'simulation' }
         let(:voting_system) { 'nVotes' }
-        let(:voting_url) { 'https://test.org' }
+        let(:voting_domain_name) { 'test.org' }
         let(:voting_identifier) {'identifier'}
         let(:shared_key) {'SHARED_KEY'}
         let(:form) do
@@ -45,7 +45,7 @@ module Decidim
             census_date_limit: census_date_limit,
             status: status,
             voting_system: voting_system,
-            voting_url: voting_url,
+            voting_domain_name: voting_domain_name,
             current_feature: current_feature,
             voting_identifier: voting_identifier,
             shared_key: shared_key
@@ -86,7 +86,7 @@ module Decidim
             expect(project.census_date_limit.strftime('%Y-%m-%d')).to eq census_date_limit
             expect(project.status).to eq status
             expect(project.voting_system).to eq voting_system
-            expect(project.voting_url).to eq voting_url
+            expect(project.voting_domain_name).to eq voting_domain_name
           end
         end
       end

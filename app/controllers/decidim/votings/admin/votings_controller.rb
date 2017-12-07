@@ -28,6 +28,7 @@ module Decidim
 
         def edit
           @form = voting_form.from_model(voting)
+          @voting = voting
         end
 
         def update

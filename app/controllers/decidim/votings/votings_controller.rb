@@ -9,10 +9,16 @@ module Decidim
       helper_method :voting
       helper Decidim::PaginateHelper
 
-      def show; end
+      def show
+        unless voting.started?
+          if params[:key] != voting.get_hash
+            raise ActionController::RoutingError.new('Not Found')
+          end
+        end
+      end
 
       def index
-        @votings = Voting.all
+        @votings = Voting.for_feature(current_feature).active
       end
 
       private

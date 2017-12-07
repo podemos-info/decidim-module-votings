@@ -9,7 +9,7 @@ shared_examples 'manage votings' do
 
     it 'with invalid data' do
       within '.new_voting' do
-        fill_in :voting_voting_url, with: 'http://example.com'
+        fill_in :voting_voting_domain_name, with: 'example.com'
         fill_in :voting_importance, with: '7'
         find('*[type=submit]').click
       end

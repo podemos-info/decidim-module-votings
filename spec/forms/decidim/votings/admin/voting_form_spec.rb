@@ -35,7 +35,7 @@ module Decidim
         let(:census_date_limit) {Date.today.strftime('%Y-%m-%dT%H:%M%S')}
         let(:status) {'simulation'}
         let(:voting_system) {'nVotes'}
-        let(:voting_url) {'https://test.org'}
+        let(:voting_domain_name) {'test.org'}
         let(:voting_identifier) {'identifier'}
         let(:shared_key) {'SHARED_KEY'}
 
@@ -46,12 +46,13 @@ module Decidim
             image: image,
             start_date: start_date,
             end_date: end_date,
+            scopes_enabled: true,
             decidim_scope_id: scope_id,
             importance: importance,
             census_date_limit: census_date_limit,
             status: status,
             voting_system: voting_system,
-            voting_url: voting_url,
+            voting_domain_name: voting_domain_name,
             voting_identifier: voting_identifier,
             shared_key: shared_key
           }

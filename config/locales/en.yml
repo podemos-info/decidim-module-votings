@@ -13,6 +13,7 @@ en:
         image: Image
         scopes_enabled: Scopes enabled
         decidim_scope: Scope
+        decidim_scope_id: Scope
         status: Status
         statuses:
           simulation: Simulation
@@ -20,7 +21,7 @@ en:
         census_date_limit: Limit date for incorporating to census
         importance: Importance
         voting_system: Voting system
-        voting_url: URL
+        voting_domain_name: Domain name
         voting_identifier: Identifier
         shared_key: Shared Key
         system_configuration: Voting system configuration
@@ -41,6 +42,10 @@ en:
         edit: Edit
         destroy: Destroy
         confirm_destroy: ¿Are you sure?
+      messages:
+        census_limit: Tu usuario no tiene la antigüedad requerida para participar en esta votación.
+        finished: Ha llegado la fecha límite para votar. La votación está cerrada.
+        invalid_scope: No puedes votar en esta zona.
       models:
         voting:
           fields:
@@ -63,6 +68,7 @@ en:
             create: Create
           edit:
             title: Edit voting
+            simulation_address: Simulation link
             update: Update
           create:
             invalid: Voting can't be created. Check the form data and correct the errors.
@@ -72,3 +78,12 @@ en:
             success: Voting updated successfully.
           destroy:
             success: Voting has been successfully erased.
+      votings:
+        index:
+          title: Votings
+        show:
+          vote: Vote
+          simulate_vote: Simulate vote
+      votes:
+        nvotes:
+          loading_cabin: Loading voting cabin...

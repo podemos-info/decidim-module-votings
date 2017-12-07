@@ -14,14 +14,12 @@ module Decidim
           @user = user
           @context = context
 
-          can :search, Decidim::Scope
+          can :vote, Voting do |voting|
+            !voting.finished? && voting.in_census_limit?(user) && voting.in_scope?(user)
+          end
+
         end
 
-        private
-
-        def current_settings
-          @context.fetch(:current_settings, nil)
-        end
       end
     end
   end
