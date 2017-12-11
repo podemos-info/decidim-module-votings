@@ -19,7 +19,7 @@ module Decidim
         end
 
         def voting_statuses_options
-          Decidim::Votings::Voting.statuses.keys.map { |status| [I18n.t(status, scope: 'activemodel.attributes.voting.statuses'), status] }
+          Decidim::Votings::Voting.statuses.keys.map { |status| [I18n.t(status, scope: "activemodel.attributes.voting.statuses"), status] }
         end
       end
     end

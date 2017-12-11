@@ -3,7 +3,6 @@
 module Decidim
   module Votings
     class SimulatedVote < Decidim::Votings::Vote
-
     end
   end
 end

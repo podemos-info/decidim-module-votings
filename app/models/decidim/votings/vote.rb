@@ -3,10 +3,9 @@
 module Decidim
   module Votings
     class Vote < Decidim::Votings::ApplicationRecord
+      belongs_to :voting, class_name: "Decidim::Votings::Voting", foreign_key: "decidim_votings_voting_id"
 
-      belongs_to :voting, class_name: 'Decidim::Votings::Voting', foreign_key: 'decidim_votings_voting_id'
-
-      belongs_to :user, class_name: 'Decidim::User', foreign_key: 'decidim_user_id'
+      belongs_to :user, class_name: "Decidim::User", foreign_key: "decidim_user_id"
 
       enum status: { pending: 0, started: 1, confirmed: 2 }
 
@@ -22,7 +21,7 @@ module Decidim
       end
 
       def generate_hash(message)
-        OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA256.new('sha256'), voting.shared_key, message)
+        OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA256.new("sha256"), voting.shared_key, message)
       end
 
       def voter_id

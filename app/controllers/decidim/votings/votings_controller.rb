@@ -12,7 +12,7 @@ module Decidim
       def show
         unless voting.started?
           if params[:key] != voting.get_hash
-            raise ActionController::RoutingError.new('Not Found')
+            raise ActionController::RoutingError, "Not Found"
           end
         end
       end

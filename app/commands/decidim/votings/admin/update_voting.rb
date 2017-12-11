@@ -39,8 +39,8 @@ module Decidim
             scope: form.scope,
             importance: form.importance,
             census_date_limit: form.census_date_limit,
-            status: form.status,
-            voting_system: 'nVotes',
+            simulation_code: form.simulation_code,
+            voting_system: form.voting_system,
             voting_domain_name: form.voting_domain_name,
             voting_identifier: form.voting_identifier
           }

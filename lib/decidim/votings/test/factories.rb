@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'decidim/faker/localized'
-require 'decidim/dev'
+require "decidim/faker/localized"
+require "decidim/dev"
 
 FactoryBot.define do
   factory :voting_feature, parent: :feature do
@@ -14,23 +14,22 @@ FactoryBot.define do
         create(:participatory_process, :with_steps, organization: organization)
       end
     end
-
   end
 
   factory :voting, class: Decidim::Votings::Voting do
     title { Decidim::Faker::Localized.sentence(3) }
-    description { Decidim::Faker::Localized.wrapped('<p>', '</p>') { Decidim::Faker::Localized.sentence(4) } }
-    status 'simulation'
+    description { Decidim::Faker::Localized.wrapped("<p>", "</p>") { Decidim::Faker::Localized.sentence(4) } }
+    simulation_code 0
     feature { create(:voting_feature) }
-    start_date { DateTime.current - 2.day }
-    end_date { DateTime.current + 2.day }
-    census_date_limit { DateTime.current + 2.day }
+    start_date { DateTime.current - 2.days }
+    end_date { DateTime.current + 2.days }
+    census_date_limit { DateTime.current + 2.days }
 
     trait :n_votes do
-      voting_system { 'nVotes' }
-      voting_domain_name { 'example.org' }
+      voting_system { "nVotes" }
+      voting_domain_name { "example.org" }
       voting_identifier { 666 }
-      shared_key { 'SHARED_KEY' }
+      shared_key { "SHARED_KEY" }
     end
 
     trait :not_started do
@@ -40,6 +39,5 @@ FactoryBot.define do
     trait :finished do
       end_date { DateTime.current - 1.day }
     end
-
   end
 end

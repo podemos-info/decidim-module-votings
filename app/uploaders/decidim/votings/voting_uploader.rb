@@ -19,7 +19,6 @@ module Decidim
       version :icon do
         process resize_and_pad: [40, 40]
       end
-
     end
   end
 end

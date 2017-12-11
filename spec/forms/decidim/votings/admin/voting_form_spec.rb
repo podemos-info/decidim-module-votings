@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 module Decidim
   module Votings
     module Admin
       describe VotingForm do
+        subject {described_class.from_params(attributes).with_context(context)}
+
         let(:organization) {create(:organization)}
         let(:participatory_process) do
           create :participatory_process, organization: organization
@@ -26,18 +28,18 @@ module Decidim
 
         let(:title) {Decidim::Faker::Localized.sentence(3)}
         let(:description) {Decidim::Faker::Localized.sentence(3)}
-        let(:image) {Decidim::Dev.test_file('city.jpeg', 'image/jpeg')}
-        let(:start_date) {(DateTime.current + 1.days)}
+        let(:image) {Decidim::Dev.test_file("city.jpeg", "image/jpeg")}
+        let(:start_date) {(DateTime.current + 1.day)}
         let(:end_date) {(DateTime.current + 2.days)}
         let(:scope) {create :scope, organization: organization}
         let(:scope_id) {scope.id}
         let(:importance) {::Faker::Number.number(2).to_i}
-        let(:census_date_limit) {Date.today.strftime('%Y-%m-%dT%H:%M%S')}
-        let(:status) {'simulation'}
-        let(:voting_system) {'nVotes'}
-        let(:voting_domain_name) {'test.org'}
-        let(:voting_identifier) {'identifier'}
-        let(:shared_key) {'SHARED_KEY'}
+        let(:census_date_limit) {Date.today.strftime("%Y-%m-%dT%H:%M%S")}
+        let(:simulation_code) {::Faker::Number.number(2).to_i}
+        let(:voting_system) {"nVotes"}
+        let(:voting_domain_name) {"test.org"}
+        let(:voting_identifier) {"identifier"}
+        let(:shared_key) {"SHARED_KEY"}
 
         let(:attributes) do
           {
@@ -50,7 +52,7 @@ module Decidim
             decidim_scope_id: scope_id,
             importance: importance,
             census_date_limit: census_date_limit,
-            status: status,
+            simulation_code: simulation_code,
             voting_system: voting_system,
             voting_domain_name: voting_domain_name,
             voting_identifier: voting_identifier,
@@ -58,17 +60,17 @@ module Decidim
           }
         end
 
-        subject {described_class.from_params(attributes).with_context(context)}
-
         it {is_expected.to be_valid}
 
-        describe 'when title is missing' do
+        describe "when title is missing" do
           let(:title) {{en: nil}}
+
           it {is_expected.not_to be_valid}
         end
 
-        describe 'when description is missing' do
+        describe "when description is missing" do
           let(:description) {{en: nil}}
+
           it {is_expected.not_to be_valid}
         end
 
@@ -90,56 +92,84 @@ module Decidim
           it {is_expected.not_to be_valid}
         end
 
+        context "with start_date" do
+          context "when it's blank" do
+            let(:start_date) {""}
 
-        context 'start_date' do
-          context "is invalid when it's blank" do
-            let(:start_date) {''}
             it {is_expected.not_to be_valid}
           end
 
-          context 'is valid when it is inside step bounds' do
+          context "when it is inside step bounds" do
             let(:start_date) {step.end_date - 1.day}
             let(:end_date) {step.end_date}
+
             it {is_expected.to be_valid}
           end
 
-          context 'is invalid when it is outside step bounds' do
+          context "when it is outside step bounds" do
             let(:start_date) {(step.start_date - 1.day)}
+
             it {is_expected.not_to be_valid}
           end
         end
 
-        context 'end_date' do
-          context "is invalid when it's blank" do
-            let(:end_date) {''}
+        context "end_date" do
+          context "when it's blank" do
+            let(:end_date) {""}
+
             it {is_expected.not_to be_valid}
           end
 
-          context 'is valid when it is inside step bounds' do
+          context "when it is inside step bounds" do
             let(:start_date) {step.start_date}
             let(:end_date) {step.end_date - 1.day}
+
             it {is_expected.to be_valid}
           end
 
-          context 'is invalid when it is outside step bounds' do
+          context "when it is outside step bounds" do
             let(:end_date) {step.end_date + 1.day}
+
             it {is_expected.not_to be_valid}
           end
         end
 
-        context 'importance' do
-          context "is invalid when it's blank" do
-            let(:importance) {''}
+        context "with importance" do
+          context "when it's blank" do
+            let(:importance) {""}
+
             it {is_expected.not_to be_valid}
           end
 
-          context 'is valid when it is an integer' do
-            let(:importance) {'7'}
+          context "when it is an integer" do
+            let(:importance) {"7"}
+
             it {is_expected.to be_valid}
           end
 
-          context 'is invalid when it is not an integer' do
-            let(:importance) {'nonumber'}
+          context "when it is not an integer" do
+            let(:importance) {"nonumber"}
+
+            it {is_expected.not_to be_valid}
+          end
+        end
+
+        context "with simulation_code" do
+          context "when it's blank" do
+            let(:simulation_code) {""}
+
+            it {is_expected.not_to be_valid}
+          end
+
+          context "when it is an integer" do
+            let(:simulation_code) {"7"}
+
+            it {is_expected.to be_valid}
+          end
+
+          context "when it is not an integer" do
+            let(:simulation_code) {"nonumber"}
+
             it {is_expected.not_to be_valid}
           end
         end

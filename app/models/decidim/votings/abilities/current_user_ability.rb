@@ -17,9 +17,7 @@ module Decidim
           can :vote, Voting do |voting|
             !voting.finished? && voting.in_census_limit?(user) && voting.in_scope?(user)
           end
-
         end
-
       end
     end
   end
