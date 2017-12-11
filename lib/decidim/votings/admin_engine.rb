@@ -8,12 +8,12 @@ module Decidim
     class AdminEngine < ::Rails::Engine
       isolate_namespace Decidim::Votings::Admin
 
-      paths['db/migrate'] = nil
+      paths["db/migrate"] = nil
 
       routes do
         resources :votings
 
-        root to: 'votings#index'
+        root to: "votings#index"
       end
     end
   end

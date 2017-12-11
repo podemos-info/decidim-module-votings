@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171211103900) do
+ActiveRecord::Schema.define(version: 20171211164844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "citext"
 
   create_table "decidim_accountability_results", id: :serial, force: :cascade do |t|
     t.jsonb "title"
@@ -162,6 +163,23 @@ ActiveRecord::Schema.define(version: 20171211103900) do
     t.index ["decidim_author_id"], name: "decidim_comments_comment_author"
     t.index ["decidim_commentable_type", "decidim_commentable_id"], name: "decidim_comments_comment_commentable"
     t.index ["decidim_root_commentable_type", "decidim_root_commentable_id"], name: "decidim_comments_comment_root_commentable"
+  end
+
+  create_table "decidim_dummy_resources", force: :cascade do |t|
+    t.string "title"
+    t.text "address"
+    t.float "latitude"
+    t.float "longitude"
+    t.bigint "decidim_feature_id"
+    t.bigint "decidim_author_id"
+    t.bigint "decidim_category_id"
+    t.bigint "decidim_scope_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["decidim_author_id"], name: "index_decidim_dummy_resources_on_decidim_author_id"
+    t.index ["decidim_category_id"], name: "index_decidim_dummy_resources_on_decidim_category_id"
+    t.index ["decidim_feature_id"], name: "index_decidim_dummy_resources_on_decidim_feature_id"
+    t.index ["decidim_scope_id"], name: "index_decidim_dummy_resources_on_decidim_scope_id"
   end
 
   create_table "decidim_features", id: :serial, force: :cascade do |t|
@@ -642,13 +660,37 @@ ActiveRecord::Schema.define(version: 20171211103900) do
     t.index ["reset_password_token"], name: "index_decidim_users_on_reset_password_token", unique: true
   end
 
+  create_table "decidim_votings_simulated_votes", force: :cascade do |t|
+    t.bigint "decidim_user_id"
+    t.bigint "decidim_votings_voting_id"
+    t.integer "status", default: 0
+    t.string "voter_identifier"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "simulation_code", default: 0, null: false
+    t.index ["decidim_user_id"], name: "index_decidim_votings_simulated_votes_on_decidim_user_id"
+    t.index ["decidim_votings_voting_id", "decidim_user_id", "simulation_code"], name: "idx_simulated_votes_voting_user_code", unique: true
+    t.index ["decidim_votings_voting_id"], name: "index_simulated_votes_on_voting"
+  end
+
+  create_table "decidim_votings_votes", force: :cascade do |t|
+    t.bigint "decidim_user_id"
+    t.bigint "decidim_votings_voting_id"
+    t.integer "status", default: 0
+    t.string "voter_identifier"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["decidim_user_id"], name: "index_decidim_votings_votes_on_decidim_user_id"
+    t.index ["decidim_votings_voting_id", "decidim_user_id"], name: "idx_votes_voting_user", unique: true
+    t.index ["decidim_votings_voting_id"], name: "index_decidim_votings_votes_on_decidim_votings_voting_id"
+  end
+
   create_table "decidim_votings_votings", force: :cascade do |t|
     t.jsonb "title"
     t.jsonb "description"
     t.string "image"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.integer "status", default: 0
     t.integer "decidim_scope_id"
     t.datetime "census_date_limit"
     t.integer "importance"
@@ -657,6 +699,7 @@ ActiveRecord::Schema.define(version: 20171211103900) do
     t.bigint "decidim_feature_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "simulation_code", default: 0, null: false
     t.index ["decidim_feature_id"], name: "decidim_votings_feature_index"
     t.index ["decidim_scope_id"], name: "index_decidim_votings_votings_on_decidim_scope_id"
   end
@@ -684,4 +727,8 @@ ActiveRecord::Schema.define(version: 20171211103900) do
   add_foreign_key "decidim_scopes", "decidim_scopes", column: "parent_id"
   add_foreign_key "decidim_static_pages", "decidim_organizations"
   add_foreign_key "decidim_users", "decidim_organizations"
+  add_foreign_key "decidim_votings_simulated_votes", "decidim_users"
+  add_foreign_key "decidim_votings_simulated_votes", "decidim_votings_votings"
+  add_foreign_key "decidim_votings_votes", "decidim_users"
+  add_foreign_key "decidim_votings_votes", "decidim_votings_votings"
 end

@@ -13,6 +13,7 @@ es:
         image: Imatge
         scopes_enabled: Àmbit habilitat
         decidim_scope: Àmbit
+        decidim_scope_id: Ámbit
         status: Estat
         statuses:
           simulation: Simulació
@@ -20,7 +21,7 @@ es:
         census_date_limit: Data límit d'incorporació al cens
         importance: Importància
         voting_system: Sistema de votació
-        voting_url: URL
+        voting_domain_name: Nom de domini
         voting_identifier: Identificador
         shared_key: Clau compartida
         system_configuration: Configuració
@@ -41,6 +42,10 @@ es:
         edit: Editar
         destroy: Esborrar
         confirm_destroy: ¿Estàs segur?
+      messages:
+        census_limit: Tu usuario no tiene la antigüedad requerida para participar en esta votación.
+        finished: Ha llegado la fecha límite para votar. La votación está cerrada.
+        invalid_scope: No puedes votar en esta zona.
       models:
         voting:
           fields:
@@ -63,6 +68,7 @@ es:
             create: Crear
           edit:
             title: Editar votación
+            simulation_address: Enllaç per simulació
             update: Actualizar
           create:
             invalid: No se pudo crear la votación. Comprueba los datos y corrige los errores.
@@ -72,3 +78,12 @@ es:
             success: La votación ha sido correctamente actualizada.
           destroy:
             success: La votación ha sido correctamente borrada.
+      votings:
+        index:
+          title: Votacions
+        show:
+          vote: Vota
+          simulate_vote: Voto simulat
+      votes:
+        nvotes:
+          loading_cabin: Carregant cabina de votació...

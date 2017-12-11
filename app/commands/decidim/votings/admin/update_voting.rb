@@ -36,12 +36,12 @@ module Decidim
             image: form.image,
             start_date: form.start_date,
             end_date: form.end_date,
-            scope: form.scopes_enabled ? form.scope : nil,
+            scope: form.scope,
             importance: form.importance,
             census_date_limit: form.census_date_limit,
-            status: form.status,
+            simulation_code: form.simulation_code,
             voting_system: form.voting_system,
-            voting_url: form.voting_url,
+            voting_domain_name: form.voting_domain_name,
             voting_identifier: form.voting_identifier
           }
           attrs[:shared_key] = form.shared_key if form.shared_key.present?

@@ -14,16 +14,16 @@ module Decidim
 
         attribute :start_date, Decidim::Attributes::TimeWithZone
         attribute :end_date, Decidim::Attributes::TimeWithZone
-        attribute :status, String
         attribute :image, String
         attribute :scopes_enabled, Boolean
         attribute :decidim_scope_id, Integer
         attribute :importance, Integer
         attribute :census_date_limit, Decidim::Attributes::TimeWithZone
         attribute :voting_system, String
-        attribute :voting_url, String
+        attribute :voting_domain_name, String
         attribute :voting_identifier, String
         attribute :shared_key, String
+        attribute :simulation_code, Integer
 
         validates :title, translatable_presence: true
         validates :description, translatable_presence: true
@@ -31,10 +31,10 @@ module Decidim
         validates :importance, numericality: { only_integer: true }
         validates :start_date, presence: true, date: { before: :end_date }
         validates :end_date, presence: true, date: { after: :start_date }
+        validates :simulation_code, numericality: { only_integer: true }
 
         validates :current_feature, presence: true
         validates :scope, presence: true, if: ->(form) { form.decidim_scope_id.present? }
-
 
         validate :voting_range_in_process_bounds
 
@@ -48,7 +48,12 @@ module Decidim
 
         def scope
           return unless current_feature
-          @scope ||= current_feature.scopes.where(id: decidim_scope_id).first || process_scope
+          return process_scope if !scopes_enabled || decidim_scope_id.blank?
+          @scope ||= (process_scope.try(:descendants) || current_feature.scopes).where(id: decidim_scope_id).first
+        end
+
+        def voting_system
+          "nVotes"
         end
 
         private
@@ -58,19 +63,18 @@ module Decidim
           return unless steps?
 
           unless included_in_steps?(start_date)
-            errors.add(:start_date, I18n.t('activemodel.errors.voting.voting_range.outside_process_range'))
+            errors.add(:start_date, I18n.t("activemodel.errors.voting.voting_range.outside_process_range"))
           end
 
           unless included_in_steps?(end_date)
-            errors.add(:end_date, I18n.t('activemodel.errors.voting.voting_range.outside_process_range'))
+            errors.add(:end_date, I18n.t("activemodel.errors.voting.voting_range.outside_process_range"))
           end
         end
 
-        def included_in_steps?(date)
-          return true if date.blank?
+        def included_in_steps?(date_time)
+          return true if date_time.blank?
           steps_containing_date = steps.select do |step|
-            step_range = step.start_date.to_time..step.end_date.to_time
-            step_range.include? date.to_time
+            date_time.between?(step.start_date, step.end_date)
           end
           steps.empty? || steps_containing_date.any?
         end

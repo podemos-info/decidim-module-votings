@@ -26,7 +26,7 @@
               </td>
               <td class="table-list__actions">
                 <%= icon_link_to 'eye',
-                                 resource_locator(voting).path,
+                                 resource_locator(voting).path(key: voting.simulation_key),
                                  t('actions.preview', scope: 'decidim.votings'),
                                  target: :blank,
                                  class: 'action-icon--preview' %>

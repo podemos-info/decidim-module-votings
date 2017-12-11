@@ -2,6 +2,7 @@
 
 module Decidim
   module Votings
-    VERSION = "0.1.0"
+    class SimulatedVote < Decidim::Votings::Vote
+    end
   end
 end

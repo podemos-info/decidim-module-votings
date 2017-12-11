@@ -1,15 +1,31 @@
+<% provide(:title, translated_attribute(voting.title)) %>
+
 <% add_decidim_meta_tags(
        title: translated_attribute(voting.title),
-       description: translated_attribute(voting.description)
+       description: translated_attribute(voting.description),
+       url: voting_url(voting)
    ) %>
 
+<div class="row column view-header">
+  <h2 class="heading2"><%= translated_attribute voting.title %></h2>
+</div>
+
 <div class="row">
-  <div class="columns mediumlarge-8 mediumlarge-pull-4">
-    <div class="row column view-header">
-      <h2 class="heading2"><%= translated_attribute voting.title %></h2>
-    </div>
-    <div class="section">
-      <%= sanitize translated_attribute voting.description %>
-    </div>
+  <div class="columns section mediumlarge-8 large-9">
+    <%= image_tag voting.image.url if voting.image.present? %>
+    <%= sanitize translated_attribute voting.description %>
   </div>
+  <% unless voting.finished? %>
+    <div class="columns section view-side mediumlarge-4 large-3 ">
+      <div class="card extra">
+        <div class="card__content">
+          <% if voting.started? %>
+            <%= action_authorized_link_to :vote, t('.vote'),voting_vote_path(voting.id), class: "card__button button expanded button--sc", method: :get %>
+          <% else %>
+            <%= action_authorized_link_to :vote, t('.simulate_vote'), voting_vote_path(voting.id,key: params[:key]), class: "card__button button expanded button--sc hollow", method: :get %>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
