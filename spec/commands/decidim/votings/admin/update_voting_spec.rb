@@ -28,12 +28,12 @@ module Decidim
         let(:title) { Decidim::Faker::Localized.sentence(3) }
         let(:description) { Decidim::Faker::Localized.sentence(3) }
         let(:image) { Decidim::Dev.test_file("city.jpeg", "image/jpeg") }
-        let(:start_date) { (Date.today + 1.day).strftime("%Y-%m-%d") }
-        let(:end_date) { (Date.today + 5.days).strftime("%Y-%m-%d") }
+        let(:start_date) { (Time.zone.today + 1.day).strftime("%Y-%m-%d") }
+        let(:end_date) { (Time.zone.today + 5.days).strftime("%Y-%m-%d") }
         let(:scope) { create :scope, organization: organization }
         let(:scope_id) { scope.id }
         let(:importance) { ::Faker::Number.number(2).to_i }
-        let(:census_date_limit) { Date.today.strftime("%Y-%m-%d") }
+        let(:census_date_limit) { Time.zone.today.strftime("%Y-%m-%d") }
         let(:simulation_code) { ::Faker::Number.number(1).to_i }
         let(:voting_system) { "nVotes" }
         let(:voting_domain_name) { "test.org" }

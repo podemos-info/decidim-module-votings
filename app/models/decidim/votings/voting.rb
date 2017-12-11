@@ -20,8 +20,9 @@ module Decidim
 
       scope :for_feature, ->(feature) { where(feature: feature) }
       scope :active, -> { where("? BETWEEN start_date AND end_date", DateTime.current) }
+      scope :order_by_importance, -> { order(:importance) }
 
-      def is_active?
+      def active?
         (start_date.to_datetime..end_date.to_datetime).cover? DateTime.current
       end
 
@@ -45,7 +46,7 @@ module Decidim
         started? ? Vote : SimulatedVote
       end
 
-      def get_hash
+      def simulation_key
         Digest::SHA256.hexdigest("#{Rails.application.secrets.secret_key_base}:#{created_at}:#{id}:#{voting_system}")
       end
     end

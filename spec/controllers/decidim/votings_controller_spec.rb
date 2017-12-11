@@ -24,8 +24,8 @@ module Decidim
         sign_in user
       end
 
-      context "index" do
-        context "one voting" do
+      context "when calling index" do
+        context "with one voting" do
           let!(:voting) { create(:voting, feature: feature) }
           let(:path) do
             EngineRouter
@@ -39,7 +39,7 @@ module Decidim
           end
         end
 
-        context "one voting not open" do
+        context "with one voting not open" do
           let!(:voting) { create(:voting, :not_started, feature: feature) }
           let(:path) do
             EngineRouter
@@ -53,7 +53,7 @@ module Decidim
           end
         end
 
-        context "several votings" do
+        context "with several votings" do
           let!(:votings) { create_list(:voting, 2, feature: feature) }
 
           it "redirects to the voting page" do
@@ -62,13 +62,13 @@ module Decidim
           end
         end
       end
-      context "show" do
-        context "voting started" do
+      context "when calling show" do
+        context "when voting is started" do
           let!(:voting) { create(:voting, feature: feature) }
 
           context "with valid key" do
             it "shows voting info" do
-              get :show, params: params.merge(id: voting.id, key: voting.get_hash)
+              get :show, params: params.merge(id: voting.id, key: voting.simulation_key)
               expect(response).to have_http_status(200)
             end
           end
@@ -79,12 +79,12 @@ module Decidim
             end
           end
         end
-        context "voting not started" do
+        context "when voting is not started" do
           let!(:voting) { create(:voting, :not_started, feature: feature) }
 
           context "with valid key" do
             it "shows voting info" do
-              get :show, params: params.merge(id: voting.id, key: voting.get_hash)
+              get :show, params: params.merge(id: voting.id, key: voting.simulation_key)
               expect(response).to have_http_status(200)
             end
           end

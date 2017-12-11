@@ -11,14 +11,14 @@ module Decidim
 
       def show
         unless voting.started?
-          if params[:key] != voting.get_hash
+          if params[:key] != voting.simulation_key
             raise ActionController::RoutingError, "Not Found"
           end
         end
       end
 
       def index
-        @votings = Voting.for_feature(current_feature).active
+        @votings = Voting.for_feature(current_feature).active.order_by_importance
       end
 
       private

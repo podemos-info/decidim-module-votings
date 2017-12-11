@@ -29,7 +29,8 @@ module Decidim
       end
 
       def store_voter_identifier
-        update_column(:voter_identifier, voter_id)
+        this.voter_identifier = voter_id
+        save
       end
     end
   end

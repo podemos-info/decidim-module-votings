@@ -15,7 +15,9 @@ FactoryBot.define do
       end
     end
   end
+end
 
+FactoryBot.define do
   factory :voting, class: Decidim::Votings::Voting do
     title { Decidim::Faker::Localized.sentence(3) }
     description { Decidim::Faker::Localized.wrapped("<p>", "</p>") { Decidim::Faker::Localized.sentence(4) } }

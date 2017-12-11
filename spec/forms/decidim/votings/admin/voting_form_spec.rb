@@ -6,9 +6,9 @@ module Decidim
   module Votings
     module Admin
       describe VotingForm do
-        subject {described_class.from_params(attributes).with_context(context)}
+        subject { described_class.from_params(attributes).with_context(context) }
 
-        let(:organization) {create(:organization)}
+        let(:organization) { create(:organization) }
         let(:participatory_process) do
           create :participatory_process, organization: organization
         end
@@ -26,20 +26,20 @@ module Decidim
           }
         end
 
-        let(:title) {Decidim::Faker::Localized.sentence(3)}
-        let(:description) {Decidim::Faker::Localized.sentence(3)}
-        let(:image) {Decidim::Dev.test_file("city.jpeg", "image/jpeg")}
-        let(:start_date) {(DateTime.current + 1.day)}
-        let(:end_date) {(DateTime.current + 2.days)}
-        let(:scope) {create :scope, organization: organization}
-        let(:scope_id) {scope.id}
-        let(:importance) {::Faker::Number.number(2).to_i}
-        let(:census_date_limit) {Date.today.strftime("%Y-%m-%dT%H:%M%S")}
-        let(:simulation_code) {::Faker::Number.number(2).to_i}
-        let(:voting_system) {"nVotes"}
-        let(:voting_domain_name) {"test.org"}
-        let(:voting_identifier) {"identifier"}
-        let(:shared_key) {"SHARED_KEY"}
+        let(:title) { Decidim::Faker::Localized.sentence(3) }
+        let(:description) { Decidim::Faker::Localized.sentence(3) }
+        let(:image) { Decidim::Dev.test_file("city.jpeg", "image/jpeg") }
+        let(:start_date) { (DateTime.current + 1.day) }
+        let(:end_date) { (DateTime.current + 2.days) }
+        let(:scope) { create :scope, organization: organization }
+        let(:scope_id) { scope.id }
+        let(:importance) { ::Faker::Number.number(2).to_i }
+        let(:census_date_limit) { Time.zone.today.strftime("%Y-%m-%dT%H:%M%S") }
+        let(:simulation_code) { ::Faker::Number.number(2).to_i }
+        let(:voting_system) { "nVotes" }
+        let(:voting_domain_name) { "test.org" }
+        let(:voting_identifier) { "identifier" }
+        let(:shared_key) { "SHARED_KEY" }
 
         let(:attributes) do
           {
@@ -60,117 +60,117 @@ module Decidim
           }
         end
 
-        it {is_expected.to be_valid}
+        it { is_expected.to be_valid }
 
         describe "when title is missing" do
-          let(:title) {{en: nil}}
+          let(:title) { { en: nil } }
 
-          it {is_expected.not_to be_valid}
+          it { is_expected.not_to be_valid }
         end
 
         describe "when description is missing" do
-          let(:description) {{en: nil}}
+          let(:description) { { en: nil } }
 
-          it {is_expected.not_to be_valid}
+          it { is_expected.not_to be_valid }
         end
 
         describe "when the scope does not exist" do
-          let(:scope_id) {scope.id + 10}
+          let(:scope_id) { scope.id + 10 }
 
-          it {is_expected.not_to be_valid}
+          it { is_expected.not_to be_valid }
         end
 
         describe "when start_date is after end_time" do
-          let(:start_date) {end_date + 3.days}
+          let(:start_date) { end_date + 3.days }
 
-          it {is_expected.not_to be_valid}
+          it { is_expected.not_to be_valid }
         end
 
         describe "when end_time is before start_time" do
-          let(:end_date) {start_date - 3.days}
+          let(:end_date) { start_date - 3.days }
 
-          it {is_expected.not_to be_valid}
+          it { is_expected.not_to be_valid }
         end
 
         context "with start_date" do
           context "when it's blank" do
-            let(:start_date) {""}
+            let(:start_date) { "" }
 
-            it {is_expected.not_to be_valid}
+            it { is_expected.not_to be_valid }
           end
 
           context "when it is inside step bounds" do
-            let(:start_date) {step.end_date - 1.day}
-            let(:end_date) {step.end_date}
+            let(:start_date) { step.end_date - 1.day }
+            let(:end_date) { step.end_date }
 
-            it {is_expected.to be_valid}
+            it { is_expected.to be_valid }
           end
 
           context "when it is outside step bounds" do
-            let(:start_date) {(step.start_date - 1.day)}
+            let(:start_date) { (step.start_date - 1.day) }
 
-            it {is_expected.not_to be_valid}
+            it { is_expected.not_to be_valid }
           end
         end
 
-        context "end_date" do
+        context "with end_date" do
           context "when it's blank" do
-            let(:end_date) {""}
+            let(:end_date) { "" }
 
-            it {is_expected.not_to be_valid}
+            it { is_expected.not_to be_valid }
           end
 
           context "when it is inside step bounds" do
-            let(:start_date) {step.start_date}
-            let(:end_date) {step.end_date - 1.day}
+            let(:start_date) { step.start_date }
+            let(:end_date) { step.end_date - 1.day }
 
-            it {is_expected.to be_valid}
+            it { is_expected.to be_valid }
           end
 
           context "when it is outside step bounds" do
-            let(:end_date) {step.end_date + 1.day}
+            let(:end_date) { step.end_date + 1.day }
 
-            it {is_expected.not_to be_valid}
+            it { is_expected.not_to be_valid }
           end
         end
 
         context "with importance" do
           context "when it's blank" do
-            let(:importance) {""}
+            let(:importance) { "" }
 
-            it {is_expected.not_to be_valid}
+            it { is_expected.not_to be_valid }
           end
 
           context "when it is an integer" do
-            let(:importance) {"7"}
+            let(:importance) { "7" }
 
-            it {is_expected.to be_valid}
+            it { is_expected.to be_valid }
           end
 
           context "when it is not an integer" do
-            let(:importance) {"nonumber"}
+            let(:importance) { "nonumber" }
 
-            it {is_expected.not_to be_valid}
+            it { is_expected.not_to be_valid }
           end
         end
 
         context "with simulation_code" do
           context "when it's blank" do
-            let(:simulation_code) {""}
+            let(:simulation_code) { "" }
 
-            it {is_expected.not_to be_valid}
+            it { is_expected.not_to be_valid }
           end
 
           context "when it is an integer" do
-            let(:simulation_code) {"7"}
+            let(:simulation_code) { "7" }
 
-            it {is_expected.to be_valid}
+            it { is_expected.to be_valid }
           end
 
           context "when it is not an integer" do
-            let(:simulation_code) {"nonumber"}
+            let(:simulation_code) { "nonumber" }
 
-            it {is_expected.not_to be_valid}
+            it { is_expected.not_to be_valid }
           end
         end
       end

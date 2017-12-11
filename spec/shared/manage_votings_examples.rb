@@ -155,12 +155,13 @@ shared_examples "manage votings" do
 
   context "when previewing votings" do
     it "allows the user to preview the voting" do
+      new_window = nil
       within find("tr", text: translated(voting.title)) do
-        @new_window = window_opened_by { find("a.action-icon--preview").click }
+        new_window = window_opened_by { find("a.action-icon--preview").click }
       end
 
-      within_window @new_window do
-        expect(current_path).to eq resource_locator(voting).path
+      within_window new_window do
+        expect(page).to have_current_path(resource_locator(voting).path)
         expect(page).to have_content(translated(voting.title))
       end
     end

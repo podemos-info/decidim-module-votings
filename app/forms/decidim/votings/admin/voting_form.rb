@@ -71,11 +71,10 @@ module Decidim
           end
         end
 
-        def included_in_steps?(date)
-          return true if date.blank?
+        def included_in_steps?(date_time)
+          return true if date_time.blank?
           steps_containing_date = steps.select do |step|
-            step_range = step.start_date.to_time..step.end_date.to_time
-            step_range.include? date.to_time
+            date_time.between?(step.start_date, step.end_date)
           end
           steps.empty? || steps_containing_date.any?
         end

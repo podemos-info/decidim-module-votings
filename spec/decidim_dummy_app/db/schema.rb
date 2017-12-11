@@ -667,7 +667,7 @@ ActiveRecord::Schema.define(version: 20171211164844) do
     t.string "voter_identifier"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "simulation_code", null: false
+    t.integer "simulation_code", default: 0, null: false
     t.index ["decidim_user_id"], name: "index_decidim_votings_simulated_votes_on_decidim_user_id"
     t.index ["decidim_votings_voting_id", "decidim_user_id", "simulation_code"], name: "idx_simulated_votes_voting_user_code", unique: true
     t.index ["decidim_votings_voting_id"], name: "index_simulated_votes_on_voting"
