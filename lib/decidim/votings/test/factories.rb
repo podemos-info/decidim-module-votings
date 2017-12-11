@@ -3,7 +3,7 @@
 require 'decidim/faker/localized'
 require 'decidim/dev'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :voting_feature, parent: :feature do
     name { Decidim::Features::Namer.new(participatory_space.organization.available_locales, :votings).i18n_name }
     manifest_name :votings
