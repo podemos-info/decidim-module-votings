@@ -56,5 +56,4 @@ FactoryBot.define do
     user { create(:user) }
     status { "pending" }
   end
-
 end

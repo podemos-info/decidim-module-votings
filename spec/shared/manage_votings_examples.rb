@@ -161,7 +161,7 @@ shared_examples "manage votings" do
       end
 
       within_window new_window do
-        expect(page).to have_current_path(resource_locator(voting).path)
+        expect(page).to have_current_path(resource_locator(voting).path(key: voting.simulation_key))
         expect(page).to have_content(translated(voting.title))
       end
     end
