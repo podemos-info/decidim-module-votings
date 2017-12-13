@@ -43,3 +43,18 @@ FactoryBot.define do
     end
   end
 end
+
+FactoryBot.define do
+  factory :vote, class: Decidim::Votings::Vote do
+    voting { create(:voting) }
+    user { create(:user) }
+    status { "pending" }
+  end
+
+  factory :simulated_vote, class: Decidim::Votings::SimulatedVote do
+    voting { create(:voting) }
+    user { create(:user) }
+    status { "pending" }
+  end
+
+end
