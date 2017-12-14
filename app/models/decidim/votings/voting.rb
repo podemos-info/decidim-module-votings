@@ -35,11 +35,11 @@ module Decidim
       end
 
       def started?
-        start_date.to_datetime < DateTime.current
+        start_date < Time.zone.now
       end
 
       def finished?
-        end_date.to_datetime < DateTime.current
+        end_date < Time.zone.now
       end
 
       def vote_class

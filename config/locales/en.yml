@@ -30,11 +30,11 @@ en:
       votings:
         name: Votings
         settings:
-          step:
-            votings_allowed: Votings allowed?
+          global:
+            remote_authorization: Remote authorization?
+            remote_authorization_url: URL
         actions:
           vote: Vote
-          register_in_census: Register in census
     votings:
       actions:
         title: Actions

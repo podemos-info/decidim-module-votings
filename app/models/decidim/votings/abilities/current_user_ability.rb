@@ -15,8 +15,18 @@ module Decidim
           @context = context
 
           can :vote, Voting do |voting|
-            !voting.finished? && voting.in_census_limit?(user) && voting.in_scope?(user)
+            result = !voting.finished?
+            if result && feature_settings.remote_authorization?
+              result = Decidim::Votings::RemoteAuthorizer.new(feature_settings.remote_authorization_url).authorized?(user, voting)
+            end
+            result
           end
+        end
+
+        private
+
+        def feature_settings
+          @context.fetch(:feature_settings, nil)
         end
       end
     end

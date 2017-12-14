@@ -20,14 +20,7 @@ module Decidim
           flash[:error] = I18n.t("decidim.votings.messages.finished")
           render(plain: destination_url(voting), status: :gone) && return
         end
-        unless voting.in_census_limit? current_user
-          flash[:error] = I18n.t("decidim.votings.messages.census_limit")
-          render(plain: destination_url(voting), status: :gone) && return
-        end
-        unless voting.in_scope? current_user
-          flash[:error] = I18n.t("decidim.votings.messages.invalid_scope")
-          render(plain: destination_url(voting), status: :gone) && return
-        end
+        authorize! :vote, voting
         attributes = { voting: voting, user: current_user }
         attributes[:simulated_code] = voting.simulated_code if voting.vote_class == Decidim::Votings::SimulatedVote
         vote = voting.vote_class.find_or_create_by(attributes)

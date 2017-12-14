@@ -15,11 +15,13 @@ Decidim.register_feature(:votings) do |feature|
   end
 
   # These actions permissions can be configured in the admin panel
-  feature.actions = %w(vote register_in_census)
+  feature.actions = %w(vote)
 
   feature.settings(:global) do |settings|
     # Add your global settings
     # Available types: :integer, :boolean
+    settings.attribute :remote_authorization, type: :boolean, default: false
+    settings.attribute :remote_authorization_url, type: :string, default: "http://example.com"
   end
 
   feature.settings(:step) do |settings|
