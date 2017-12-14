@@ -25,4 +25,4 @@ $ gem install decidim-votings
 Contribution directions go here.
 
 ## License
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+This engine is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
