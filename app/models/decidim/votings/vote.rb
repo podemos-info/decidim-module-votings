@@ -29,8 +29,12 @@ module Decidim
       end
 
       def store_voter_identifier
-        this.voter_identifier = voter_id
+        self.voter_identifier = voter_id
         save
+      end
+
+      def confirm!
+        update_attributes(status: "confirmed")
       end
     end
   end
