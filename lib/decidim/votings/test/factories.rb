@@ -54,6 +54,7 @@ FactoryBot.define do
   factory :simulated_vote, class: Decidim::Votings::SimulatedVote do
     voting { create(:voting) }
     user { create(:user) }
+    simulation_code { 666 }
     status { "pending" }
   end
 end

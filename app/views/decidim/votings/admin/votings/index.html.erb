@@ -46,6 +46,12 @@
                                      class: 'action-icon--remove',
                                      data: { confirm: t('actions.confirm_destroy', scope: 'decidim.votings') } %>
                 <% end %>
+                <%= icon_link_to 'data-transfer-download',
+                                 voting_votes_path(voting, format: 'txt'),
+                                 t('actions.voters', scope: 'decidim.votings'),
+                                 method: :get,
+                                 class: 'action-icon--download' %>
+
               </td>
             </tr>
         <% end %>

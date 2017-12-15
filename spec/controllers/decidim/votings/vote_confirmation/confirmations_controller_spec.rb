@@ -52,7 +52,7 @@ module Decidim
           end
 
           context "when simulated vote exists" do
-            let!(:simulated_vote) { create(:vote, voting: voting, voter_identifier: voter_id, user: user) }
+            let!(:simulated_vote) { create(:simulated_vote, voting: voting, voter_identifier: voter_id, user: user) }
 
             it "confirms the vote" do
               get :confirm, params: { election_id: election_id, voter_id: voter_id }
