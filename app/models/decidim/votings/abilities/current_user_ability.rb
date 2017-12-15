@@ -16,7 +16,7 @@ module Decidim
 
           can :vote, Voting do |voting|
             result = !voting.finished?
-            if result && feature_settings.remote_authorization?
+            if result && feature_settings.remote_authorization_url.present?
               result = Decidim::Votings::RemoteAuthorizer.new(feature_settings.remote_authorization_url).authorized?(user, voting)
             end
             result

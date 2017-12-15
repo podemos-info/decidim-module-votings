@@ -21,7 +21,7 @@ module Decidim
             user: Decidim::Votings::UserSerializer.new(user).as_json
           }
         }
-        response = RemoteAuthorizer.post("#{url}/authorizations", options)
+        response = RemoteAuthorizer.post(url, options)
         response.code == 201
       end
     end
