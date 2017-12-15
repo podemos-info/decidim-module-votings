@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib,vendor}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
 
+  s.add_dependency "active_model_serializers"
   s.add_dependency "decidim-core", "~> 0.8.0"
   s.add_dependency "pg"
   s.add_dependency "rails", "~> 5.1.4"

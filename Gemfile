@@ -13,6 +13,7 @@ gemspec
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
+gem "active_model_serializers"
 gem "decidim", "~> 0.8.0"
 gem "decidim-verifications"
 gem "pg"
