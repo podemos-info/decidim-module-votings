@@ -27,6 +27,7 @@ describe Decidim::Votings::Abilities::CurrentUserAbility do
 
       it "allows to vote" do
         expect(feature_settings).to receive(:remote_authorization_url)
+          .at_most(:twice)
           .and_return(remote_authorization_url)
         expect(subject).to be_able_to(:vote, voting)
       end
@@ -38,6 +39,7 @@ describe Decidim::Votings::Abilities::CurrentUserAbility do
 
       it "does not allow to vote" do
         expect(feature_settings).to receive(:remote_authorization_url)
+          .at_most(:twice)
           .and_return(remote_authorization_url)
         expect(subject).not_to be_able_to(:vote, voting)
       end

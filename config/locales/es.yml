@@ -42,6 +42,7 @@ es:
         edit: Editar
         destroy: Borrar
         confirm_destroy: ¿Estás seguro?
+        voters: Descargar identificadores de votantes
       messages:
         census_limit: Tu usuario no tiene la antigüedad requerida para participar en esta votación.
         finished: Ha llegado la fecha límite para votar. La votación está cerrada.

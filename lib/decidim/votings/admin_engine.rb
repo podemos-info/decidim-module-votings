@@ -11,7 +11,9 @@ module Decidim
       paths["db/migrate"] = nil
 
       routes do
-        resources :votings
+        resources :votings do
+          resources :votes, only: [:index], constraints: { format: "txt" }
+        end
 
         root to: "votings#index"
       end
