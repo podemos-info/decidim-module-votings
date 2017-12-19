@@ -18,6 +18,9 @@ module Decidim
 
       validates :image, file_size: { less_than_or_equal_to: ->(_attachment) { Decidim.maximum_attachment_size } }
 
+      has_many :votes, foreign_key: "decidim_votings_voting_id", inverse_of: :voting, dependent: :destroy
+      has_many :simulated_votes, foreign_key: "decidim_votings_voting_id", inverse_of: :voting, dependent: :destroy
+
       scope :for_feature, ->(feature) { where(feature: feature) }
       scope :active, -> { where("? BETWEEN start_date AND end_date", DateTime.current) }
       scope :order_by_importance, -> { order(:importance) }
@@ -46,8 +49,22 @@ module Decidim
         started? ? Vote : SimulatedVote
       end
 
+      def target_votes
+        started? ? votes : simulated_votes.by_simulation_code(simulation_code)
+      end
+
       def simulation_key
         Digest::SHA256.hexdigest("#{Rails.application.secrets.secret_key_base}:#{created_at}:#{id}:#{voting_system}")
+      end
+
+      def status
+        return :upcoming unless started?
+        return :closed if finished?
+        :active
+      end
+
+      def has_voted?(user)
+        target_votes.by_user(user).first&.confirmed?
       end
     end
   end

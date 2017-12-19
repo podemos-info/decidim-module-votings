@@ -16,8 +16,9 @@ es:
         decidim_scope_id: Ámbito de participación
         status: Estado
         statuses:
-          simulation: Simulación
-          live: Real
+          upcoming: Próxima
+          active: Activa
+          closed: Cerrada
         census_date_limit: Fecha límite de incorporación al censo
         importance: Importancia
         voting_system: Sistema de votación
@@ -47,10 +48,13 @@ es:
         census_limit: Tu usuario no tiene la antigüedad requerida para participar en esta votación.
         finished: Ha llegado la fecha límite para votar. La votación está cerrada.
         invalid_scope: No puedes votar en esta zona.
+        already_voted: Ya has votado en esta votación. No obstante, puedes cambiar tu voto mientras la votación continúe abierta
       models:
         voting:
           fields:
             title: Título
+          voting_system:
+            nvotes_html: 'La votación utiliza el sistema seguro de <a href="http://agoravoting.org" target="_blank"><b>Agora Voting</b></a>.'
       admin:
         models:
           voting:
