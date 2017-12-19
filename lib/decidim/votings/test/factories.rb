@@ -49,6 +49,9 @@ FactoryBot.define do
     voting { create(:voting) }
     user { create(:user) }
     status { "pending" }
+    trait :confirmed do
+      status { :confirmed }
+    end
   end
 
   factory :simulated_vote, class: Decidim::Votings::SimulatedVote do
@@ -56,5 +59,8 @@ FactoryBot.define do
     user { create(:user) }
     simulation_code { 666 }
     status { "pending" }
+    trait :confirmed do
+      status { :confirmed }
+    end
   end
 end

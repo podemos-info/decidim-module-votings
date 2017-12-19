@@ -5,8 +5,7 @@ module Decidim
     module Admin
       class VotesController < Decidim::Votings::Admin::ApplicationController
         def index
-          @votes = voting.vote_class.for_voting(voting)
-          @votes = @votes.by_simulation_code(voting.simulation_code) unless voting.started?
+          @votes = voting.target_votes
           render "index", layout: false, formats: [:text]
         end
 
