@@ -53,6 +53,11 @@ es:
         voting:
           fields:
             title: Título
+            start_date: Inicio
+            end_date: Fin
+            pending_votes: Votos emitidos
+            confirmed_votes: Votos confirmados
+            status: Estado
           voting_system:
             nvotes_html: 'La votación utiliza el sistema seguro de <a href="http://agoravoting.org" target="_blank"><b>Agora Voting</b></a>.'
       admin:

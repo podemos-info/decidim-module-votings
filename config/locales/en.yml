@@ -53,6 +53,11 @@ en:
         voting:
           fields:
             title: Title
+            start_date: Start
+            end_date: End
+            pending_votes: Generated votes
+            confirmed_votes: Confirmed votes
+            status: Status
           voting_system:
             nvotes_html: 'Voting uses secure system of <a href="http://agoravoting.org" target="_blank"><b>Agora Voting</b></a>.'
       admin:

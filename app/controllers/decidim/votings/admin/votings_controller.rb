@@ -5,6 +5,7 @@ module Decidim
     module Admin
       class VotingsController < Admin::ApplicationController
         helper Decidim::Votings::Admin::VotingsHelper
+        helper Decidim::Votings::VotingsHelper
 
         before_action :init_form_from_params, only: [:create, :update]
 
