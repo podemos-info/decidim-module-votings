@@ -91,6 +91,7 @@ en:
       votings:
         index:
           title: Votings
+          no_votings_warning: There is no active voting at this time
         show:
           vote: Vote
           simulate_vote: Simulate vote
