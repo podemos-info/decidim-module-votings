@@ -52,7 +52,12 @@ es:
       models:
         voting:
           fields:
-            title: Título
+            title: Títol
+            start_date: Inici
+            end_date: Fi
+            pending_votes: Vots emesos
+            confirmed_votes: Vots confirmats
+            status: Estat
           voting_system:
             nvotes_html: 'La votació utilitza el sistema segur de <a href="http://agoravoting.org" target="_blank"><b>Agora Voting</b></a>.'
       admin:

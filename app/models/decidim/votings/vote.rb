@@ -7,7 +7,7 @@ module Decidim
 
       belongs_to :user, class_name: "Decidim::User", foreign_key: "decidim_user_id"
 
-      enum status: { pending: 0, started: 1, confirmed: 2 }
+      enum status: { pending: 0, confirmed: 1 }
 
       scope :for_voting, ->(voting) { where(decidim_votings_voting_id: voting) }
       scope :by_user, ->(user) { where(decidim_user_id: user) }
