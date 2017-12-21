@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    decidim-votings (0.1.0)
+    decidim-votings (0.1.1)
       active_model_serializers
       decidim-core (~> 0.8.0)
       pg

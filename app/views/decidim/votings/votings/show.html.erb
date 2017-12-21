@@ -31,9 +31,9 @@
       <% end %>
         <div class="card__content">
           <% if voting.started? %>
-            <%= action_authorized_link_to :vote, t('.vote'),voting_vote_path(voting.id), class: "card__button button expanded button--sc", method: :get %>
+            <%= action_authorized_button_to :vote, t('.vote'),voting_vote_path(voting.id), class: "card__button button expanded button--sc", method: :get %>
           <% else %>
-            <%= action_authorized_link_to :vote, t('.simulate_vote'), voting_vote_path(voting.id,key: params[:key]), class: "card__button button expanded button--sc hollow", method: :get %>
+            <%= action_authorized_button_to :vote, t('.simulate_vote'), voting_vote_path(voting.id,key: params[:key]), class: "card__button button expanded button--sc hollow", method: :get %>
         <% end %>
         </div>
       </div>

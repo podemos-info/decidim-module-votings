@@ -53,7 +53,7 @@ describe "Explore votings", type: :feature do
         it "has button for voting" do
           visit_feature
           click_link translated(voting.title)
-          expect(page).to have_link("Vote")
+          expect(page).to have_button("Vote")
         end
 
         it "has a message about voting system used" do
