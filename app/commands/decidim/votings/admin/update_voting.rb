@@ -44,8 +44,12 @@ module Decidim
             voting_domain_name: form.voting_domain_name,
             voting_identifier: form.voting_identifier
           }
-          attrs[:shared_key] = form.shared_key if form.shared_key.present?
+          append_shared_key(attrs)
           voting.update_attributes!(attrs)
+        end
+
+        def append_shared_key(attrs)
+          attrs[:shared_key] = form.shared_key if form.shared_key.present? && form.change_shared_key && voting.can_change_shared_key?
         end
       end
     end

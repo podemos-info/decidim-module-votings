@@ -23,7 +23,8 @@ module Decidim
           }
         end
 
-        let(:voting) { create(:voting, feature: current_feature) }
+        let(:initial_shared_key) { "INITIAL" }
+        let(:voting) { create(:voting, feature: current_feature, shared_key: initial_shared_key) }
 
         let(:title) { Decidim::Faker::Localized.sentence(3) }
         let(:description) { Decidim::Faker::Localized.sentence(3) }
@@ -56,6 +57,7 @@ module Decidim
             voting_system: voting_system,
             voting_domain_name: voting_domain_name,
             voting_identifier: voting_identifier,
+            change_shared_key: true,
             shared_key: shared_key
           )
         end
@@ -85,6 +87,57 @@ module Decidim
             expect(updated_voting.simulation_code).to eq simulation_code
             expect(updated_voting.voting_system).to eq voting_system
             expect(updated_voting.voting_domain_name).to eq voting_domain_name
+            expect(updated_voting.shared_key).to eq shared_key
+          end
+        end
+
+        context "when voting has votes" do
+          let(:updated_voting) { Decidim::Votings::Voting.last }
+          let!(:vote) { create(:vote, voting: voting) }
+
+          it "does not change shared key" do
+            subject.call
+            expect(updated_voting.shared_key).to eq initial_shared_key
+          end
+        end
+
+        context "when shared_key not selected to be changed" do
+          let(:updated_voting) { Decidim::Votings::Voting.last }
+          let(:form) do
+            double(
+              invalid?: invalid,
+              title: title,
+              description: description,
+              image: image,
+              start_date: start_date,
+              end_date: end_date,
+              scopes_enabled: true,
+              scope: scope,
+              importance: importance,
+              census_date_limit: census_date_limit,
+              simulation_code: simulation_code,
+              voting_system: voting_system,
+              voting_domain_name: voting_domain_name,
+              voting_identifier: voting_identifier,
+              change_shared_key: false,
+              shared_key: shared_key
+            )
+          end
+
+          it "sets all attributes received from the form except shared key" do
+            subject.call
+            expect(updated_voting.title).to eq title
+            expect(updated_voting.description).to eq description
+            expect(updated_voting.image.path.split("/").last).to eq "city.jpeg"
+            expect(updated_voting.start_date.strftime("%Y-%m-%d")).to eq start_date
+            expect(updated_voting.end_date.strftime("%Y-%m-%d")).to eq end_date
+            expect(updated_voting.decidim_scope_id).to eq scope_id
+            expect(updated_voting.importance).to eq importance
+            expect(updated_voting.census_date_limit.strftime("%Y-%m-%d")).to eq census_date_limit
+            expect(updated_voting.simulation_code).to eq simulation_code
+            expect(updated_voting.voting_system).to eq voting_system
+            expect(updated_voting.voting_domain_name).to eq voting_domain_name
+            expect(updated_voting.shared_key).to eq initial_shared_key
           end
         end
       end
