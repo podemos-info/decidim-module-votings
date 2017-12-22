@@ -13,6 +13,7 @@ module Decidim
           end
         end
         authorize! :vote, voting
+        render layout: "layouts/decidim/booth"
       end
 
       def token
