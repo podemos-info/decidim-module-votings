@@ -66,6 +66,10 @@ module Decidim
       def has_voted?(user)
         target_votes.by_user(user).first&.confirmed?
       end
+
+      def can_change_shared_key?
+        simulated_votes.empty? && votes.empty?
+      end
     end
   end
 end
