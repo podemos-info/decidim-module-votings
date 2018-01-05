@@ -8,6 +8,7 @@ module Decidim
 
       helper_method :voting
       helper Decidim::PaginateHelper
+      helper Decidim::ParticipatoryProcesses::ParticipatoryProcessHelper
 
       def show
         unless voting.started?
