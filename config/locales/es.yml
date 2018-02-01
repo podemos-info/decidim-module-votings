@@ -94,6 +94,8 @@ es:
         show:
           vote: Vota
           simulate_vote: Simular voto
+        votings:
+          no_votings: En estos momentos no hay votaciones activas. Te avisaremos cuando se produzcan.
       votes:
         nvotes:
           loading_cabin: Cargando cabina de votación...
