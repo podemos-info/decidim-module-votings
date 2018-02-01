@@ -12,6 +12,8 @@ module Decidim
       scope :for_voting, ->(voting) { where(decidim_votings_voting_id: voting) }
       scope :by_user, ->(user) { where(decidim_user_id: user) }
 
+      before_create :ensure_voter_identifier
+
       def token
         message = generate_message
         "#{generate_hash message}/#{message}"
@@ -25,17 +27,18 @@ module Decidim
         OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA256.new("sha256"), voting.shared_key, message)
       end
 
-      def voter_id
-        Digest::SHA256.hexdigest("#{Rails.application.secrets.secret_key_base}:#{user.id}:#{voting.id}")
-      end
-
-      def store_voter_identifier
-        self.voter_identifier = voter_id
-        save
-      end
-
       def confirm!
         update_attributes(status: "confirmed")
+      end
+
+      private
+
+      def ensure_voter_identifier
+        self.voter_identifier = voter_id if voter_identifier.blank?
+      end
+
+      def voter_id
+        Digest::SHA256.hexdigest("#{Rails.application.secrets.secret_key_base}:#{user.id}:#{voting.id}:#{Time.current}")
       end
     end
   end

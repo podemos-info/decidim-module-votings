@@ -24,6 +24,8 @@ module Decidim
         attribute :voting_identifier, String
         attribute :shared_key, String
         attribute :simulation_code, Integer
+        attribute :can_change_shared_key, Boolean
+        attribute :change_shared_key, Boolean
 
         validates :title, translatable_presence: true
         validates :description, translatable_presence: true
@@ -40,6 +42,8 @@ module Decidim
 
         def map_model(voting)
           self.scopes_enabled = voting.scope.present?
+          self.can_change_shared_key = voting.can_change_shared_key?
+          self.change_shared_key = false
         end
 
         def process_scope

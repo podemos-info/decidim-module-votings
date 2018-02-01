@@ -13,6 +13,7 @@ module Decidim
           end
         end
         authorize! :vote, voting
+        render layout: "layouts/decidim/booth"
       end
 
       def token
@@ -24,7 +25,6 @@ module Decidim
         attributes = { voting: voting, user: current_user }
         attributes[:simulated_code] = voting.simulated_code if voting.vote_class == Decidim::Votings::SimulatedVote
         vote = voting.vote_class.find_or_create_by(attributes)
-        vote.store_voter_identifier
 
         render plain: vote.token, status: :ok
       end
