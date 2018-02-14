@@ -10,9 +10,6 @@
 # rspec failure tracking
 .rspec_status
 
-# .rubocop remote config cache
-.rubocop-*-yml
-
 # default test application
 spec/decidim_dummy_app
 
