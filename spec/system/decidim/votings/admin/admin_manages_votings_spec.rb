@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "Admin manages votings", type: :feature, serves_map: true do
+describe "Admin manages votings", type: :system, serves_map: true do
   let(:manifest_name) { "votings" }
   let!(:voting) { create :voting, feature: current_feature, voting_system: "nVotes" }
 

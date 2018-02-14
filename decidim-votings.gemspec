@@ -13,16 +13,11 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 2.3.1"
 
   s.name = "decidim-votings"
-  s.summary = "Add one or more votings to a participatory process or assambly"
-  s.description = s.summary
+  s.summary = "A decidim votings module"
+  s.description = "Adds one or more votings to a participatory space"
 
-  s.files = Dir["{app,config,db,lib,vendor}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.md"]
 
+  s.add_dependency "decidim-core", Decidim::Votings::VERSION
   s.add_dependency "active_model_serializers"
-  s.add_dependency "decidim-core", "~> 0.9.0.pre"
-  s.add_dependency "pg"
-  s.add_dependency "rails", "~> 5.1.4"
-  s.add_dependency "rectify"
-
-  s.add_development_dependency "decidim-dev"
 end
