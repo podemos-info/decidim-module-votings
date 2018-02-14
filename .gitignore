@@ -1,8 +1,20 @@
-.bundle/
-log/*.log
-pkg/
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
 
+# rspec failure tracking
+.rspec_status
 
-.idea/
-.rubocop.yml
-.rbenv-gemsets
+# .rubocop remote config cache
+.rubocop-*-yml
+
+# default test application
+spec/decidim_dummy_app
+
+# default development application
+development_app

@@ -12,9 +12,7 @@ module Decidim
 
       def show
         unless voting.started?
-          if params[:key] != voting.simulation_key
-            raise ActionController::RoutingError, "Not Found"
-          end
+          raise ActionController::RoutingError, "Not Found" if params[:key] != voting.simulation_key
         end
       end
 

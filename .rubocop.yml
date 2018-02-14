@@ -1,0 +1,8 @@
+---
+
+inherit_from: https://raw.githubusercontent.com/decidim/decidim/master/.rubocop.yml
+
+# TODO: Fixed in rubocop-rspec 1.22.0, remove exclusion when decidim updates
+RSpec/DescribeClass:
+  Exclude:
+    - "spec/system/**/*"

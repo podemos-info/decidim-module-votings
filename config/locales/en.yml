@@ -95,6 +95,8 @@ en:
         show:
           vote: Vote
           simulate_vote: Simulate vote
+        votings:
+          no_votings: No votings
       votes:
         nvotes:
           loading_cabin: Loading voting cabin...

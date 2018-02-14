@@ -66,13 +66,9 @@ module Decidim
         def voting_range_in_process_bounds
           return unless steps?
 
-          unless included_in_steps?(start_date)
-            errors.add(:start_date, I18n.t("activemodel.errors.voting.voting_range.outside_process_range"))
-          end
+          errors.add(:start_date, I18n.t("activemodel.errors.voting.voting_range.outside_process_range")) unless included_in_steps?(start_date)
 
-          unless included_in_steps?(end_date)
-            errors.add(:end_date, I18n.t("activemodel.errors.voting.voting_range.outside_process_range"))
-          end
+          errors.add(:end_date, I18n.t("activemodel.errors.voting.voting_range.outside_process_range")) unless included_in_steps?(end_date)
         end
 
         def included_in_steps?(date_time)
