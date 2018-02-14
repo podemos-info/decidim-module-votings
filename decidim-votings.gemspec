@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.md"]
 
-  s.add_dependency "decidim-core", Decidim::Votings::VERSION
   s.add_dependency "active_model_serializers"
+  s.add_dependency "decidim-core", Decidim::Votings::VERSION
 end

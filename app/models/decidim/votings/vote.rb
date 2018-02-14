@@ -3,9 +3,9 @@
 module Decidim
   module Votings
     class Vote < Decidim::Votings::ApplicationRecord
-      belongs_to :voting, class_name: "Decidim::Votings::Voting", foreign_key: "decidim_votings_voting_id"
+      belongs_to :voting, class_name: "Decidim::Votings::Voting", foreign_key: "decidim_votings_voting_id", inverse_of: :votes
 
-      belongs_to :user, class_name: "Decidim::User", foreign_key: "decidim_user_id"
+      belongs_to :user, class_name: "Decidim::User", foreign_key: "decidim_user_id", inverse_of: false
 
       enum status: { pending: 0, confirmed: 1 }
 
