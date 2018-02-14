@@ -95,6 +95,8 @@ es:
         show:
           vote: Vota
           simulate_vote: Voto simulat
+        votings:
+          no_votings: No hi ha cap votació
       votes:
         nvotes:
           loading_cabin: Carregant cabina de votació...
