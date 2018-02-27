@@ -28,7 +28,7 @@ gem install decidim-votings
 
 ## Contributing
 
-Contribution directions go here.
+See [Decidim](https://github.com/decidim/decidim).
 
 ## License
 
