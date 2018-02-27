@@ -1,6 +1,6 @@
 # Decidim::Votings
 
-An administrator can add one or more votings to a participatory process or assambly
+An administrator can add one or more votings to a participatory space.
 
 ## Usage
 
@@ -28,7 +28,7 @@ gem install decidim-votings
 
 ## Contributing
 
-Contribution directions go here.
+See [Decidim](https://github.com/decidim/decidim).
 
 ## License
 
