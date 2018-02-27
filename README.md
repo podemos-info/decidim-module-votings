@@ -1,6 +1,6 @@
 # Decidim::Votings
 
-An administrator can add one or more votings to a participatory process or assambly
+An administrator can add one or more votings to a participatory space.
 
 ## Usage
 
