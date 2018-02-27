@@ -70,13 +70,13 @@ module Decidim
           context "with valid key" do
             it "shows voting info" do
               get :show, params: params.merge(id: voting.id, key: voting.simulation_key)
-              expect(response).to have_http_status(200)
+              expect(response).to have_http_status(:ok)
             end
           end
           context "with invalid key" do
             it "shows voting info" do
               get :show, params: params.merge(id: voting.id, key: "fakekey")
-              expect(response).to have_http_status(200)
+              expect(response).to have_http_status(:ok)
             end
           end
         end
@@ -86,7 +86,7 @@ module Decidim
           context "with valid key" do
             it "shows voting info" do
               get :show, params: params.merge(id: voting.id, key: voting.simulation_key)
-              expect(response).to have_http_status(200)
+              expect(response).to have_http_status(:ok)
             end
           end
           context "with invalid key" do
