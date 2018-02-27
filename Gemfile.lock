@@ -141,6 +141,7 @@ PATH
   specs:
     decidim-votings (0.10.0.pre)
       active_model_serializers
+      decidim-admin (= 0.10.0.pre)
       decidim-core (= 0.10.0.pre)
 
 GEM
