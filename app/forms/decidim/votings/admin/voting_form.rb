@@ -46,14 +46,14 @@ module Decidim
           self.change_shared_key = false
         end
 
-        def process_scope
+        def space_scope
           current_feature.participatory_space.scope
         end
 
         def scope
           return unless current_feature
-          return process_scope if !scopes_enabled || decidim_scope_id.blank?
-          @scope ||= (process_scope.try(:descendants) || current_feature.scopes).where(id: decidim_scope_id).first
+          return space_scope if !scopes_enabled || decidim_scope_id.blank?
+          @scope ||= (space_scope.try(:descendants) || current_feature.scopes).where(id: decidim_scope_id).first
         end
 
         def voting_system

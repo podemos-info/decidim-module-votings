@@ -6,61 +6,77 @@ shared_examples "manage votings" do
       find(".card-title a.button").click
     end
 
-    it "with invalid data" do
-      within ".new_voting" do
-        fill_in :voting_voting_domain_name, with: "example.com"
-        fill_in :voting_importance, with: "7"
-        fill_in :voting_simulation_code, with: "5"
-        find("*[type=submit]").click
-      end
+    it "properly toggles the scopes checkbox" do
+      expect(page).to have_selector("#voting_decidim_scope_id", class: "disabled")
 
-      within ".callout-wrapper" do
-        expect(page).to have_content("Check the form data and correct the errors")
-      end
+      check "Scopes enabled"
 
-      expect(page).to have_content("NEW VOTING")
+      expect(page).to have_no_selector("#voting_decidim_scope_id", class: "disabled")
     end
 
-    it "with valid data" do
-      fill_in_i18n(
-        :voting_title,
-        "#voting-title-tabs",
-        en: "My voting",
-        es: "Mi votación",
-        ca: "La meua votació"
-      )
-
-      fill_in_i18n_editor(
-        :voting_description,
-        "#voting-description-tabs",
-        en: "My voting description",
-        es: "La descripción de la votación",
-        ca: "La descripció de la votació"
-      )
-
-      fill_in :voting_importance, with: "1"
-      fill_in :voting_simulation_code, with: "5"
-
-      page.execute_script("$('#datetime_field_voting_start_date').focus()")
-      page.find(".datepicker-dropdown .day", text: "12").click
-      page.find(".datepicker-dropdown .hour", text: "10:00").click
-      page.find(".datepicker-dropdown .minute", text: "10:50").click
-
-      page.execute_script("$('#datetime_field_voting_end_date').focus()")
-      page.find(".datepicker-dropdown .day", text: "12").click
-      page.find(".datepicker-dropdown .hour", text: "12:00").click
-      page.find(".datepicker-dropdown .minute", text: "12:50").click
-
-      within ".new_voting" do
-        find("*[type=submit]").click
+    context "with invalid data" do
+      before do
+        within ".new_voting" do
+          fill_in :voting_voting_domain_name, with: "example.com"
+          fill_in :voting_importance, with: "7"
+          fill_in :voting_simulation_code, with: "5"
+          find("*[type=submit]").click
+        end
       end
 
-      within ".callout-wrapper" do
-        expect(page).to have_content("successfully")
+      it "shows errors and redirects back to form" do
+        within ".callout-wrapper" do
+          expect(page).to have_content("Check the form data and correct the errors")
+        end
+
+        expect(page).to have_content("NEW VOTING")
+      end
+    end
+
+    context "with valid data" do
+      before do
+        fill_in_i18n(
+          :voting_title,
+          "#voting-title-tabs",
+          en: "My voting",
+          es: "Mi votación",
+          ca: "La meua votació"
+        )
+
+        fill_in_i18n_editor(
+          :voting_description,
+          "#voting-description-tabs",
+          en: "My voting description",
+          es: "La descripción de la votación",
+          ca: "La descripció de la votació"
+        )
+
+        fill_in :voting_importance, with: "1"
+        fill_in :voting_simulation_code, with: "5"
+
+        page.execute_script("$('#datetime_field_voting_start_date').focus()")
+        page.find(".datepicker-dropdown .day", text: "12").click
+        page.find(".datepicker-dropdown .hour", text: "10:00").click
+        page.find(".datepicker-dropdown .minute", text: "10:50").click
+
+        page.execute_script("$('#datetime_field_voting_end_date').focus()")
+        page.find(".datepicker-dropdown .day", text: "12").click
+        page.find(".datepicker-dropdown .hour", text: "12:00").click
+        page.find(".datepicker-dropdown .minute", text: "12:50").click
+
+        within ".new_voting" do
+          find("*[type=submit]").click
+        end
       end
 
-      within "table" do
-        expect(page).to have_content("My voting")
+      it "shows a success message and redirects to voting list" do
+        within ".callout-wrapper" do
+          expect(page).to have_content("successfully")
+        end
+
+        within "table" do
+          expect(page).to have_content("My voting")
+        end
       end
     end
   end
@@ -72,61 +88,69 @@ shared_examples "manage votings" do
       end
     end
 
-    it "with invalid data" do
-      within ".edit_voting" do
-        fill_in :voting_importance, with: "nonumber"
-        fill_in :voting_simulation_code, with: "5"
-        find("*[type=submit]").click
+    context "with invalid data" do
+      before do
+        within ".edit_voting" do
+          fill_in :voting_importance, with: "nonumber"
+          fill_in :voting_simulation_code, with: "5"
+          find("*[type=submit]").click
+        end
       end
 
-      within ".callout-wrapper" do
-        expect(page).to have_content("Check the form data and correct the errors")
-      end
+      it "shows errors and redirects back to form" do
+        within ".callout-wrapper" do
+          expect(page).to have_content("Check the form data and correct the errors")
+        end
 
-      expect(page).to have_content("EDIT VOTING")
+        expect(page).to have_content("EDIT VOTING")
+      end
     end
 
-    it "with valid data" do
-      within ".edit_voting" do
-        fill_in_i18n(
-          :voting_title,
-          "#voting-title-tabs",
-          en: "My updated voting",
-          es: "Mi votación actualizada",
-          ca: "La meua votació actualitzada"
-        )
+    context "with valid data" do
+      before do
+        within ".edit_voting" do
+          fill_in_i18n(
+            :voting_title,
+            "#voting-title-tabs",
+            en: "My updated voting",
+            es: "Mi votación actualizada",
+            ca: "La meua votació actualitzada"
+          )
 
-        fill_in_i18n_editor(
-          :voting_description,
-          "#voting-description-tabs",
-          en: "My updated voting description",
-          es: "La descripción de la votación actualizada",
-          ca: "La descripció de la votació actualitzada"
-        )
-        fill_in :voting_importance, with: "1"
-        fill_in :voting_simulation_code, with: "5"
+          fill_in_i18n_editor(
+            :voting_description,
+            "#voting-description-tabs",
+            en: "My updated voting description",
+            es: "La descripción de la votación actualizada",
+            ca: "La descripció de la votació actualitzada"
+          )
+          fill_in :voting_importance, with: "1"
+          fill_in :voting_simulation_code, with: "5"
+        end
+
+        page.execute_script("$('#datetime_field_voting_start_date').focus()")
+        page.find(".datepicker-dropdown .day", text: "12").click
+        page.find(".datepicker-dropdown .hour", text: "10:00").click
+        page.find(".datepicker-dropdown .minute", text: "10:50").click
+
+        page.execute_script("$('#datetime_field_voting_end_date').focus()")
+        page.find(".datepicker-dropdown .day", text: "12").click
+        page.find(".datepicker-dropdown .hour", text: "12:00").click
+        page.find(".datepicker-dropdown .minute", text: "12:50").click
+
+        within ".edit_voting" do
+          find("*[type=submit]").click
+        end
       end
 
-      page.execute_script("$('#datetime_field_voting_start_date').focus()")
-      page.find(".datepicker-dropdown .day", text: "12").click
-      page.find(".datepicker-dropdown .hour", text: "10:00").click
-      page.find(".datepicker-dropdown .minute", text: "10:50").click
+      it "shows a sucess message and redirects to voting list" do
+        within ".callout-wrapper" do
+          expect(page).to have_content("successfully")
+        end
 
-      page.execute_script("$('#datetime_field_voting_end_date').focus()")
-      page.find(".datepicker-dropdown .day", text: "12").click
-      page.find(".datepicker-dropdown .hour", text: "12:00").click
-      page.find(".datepicker-dropdown .minute", text: "12:50").click
-
-      within ".edit_voting" do
-        find("*[type=submit]").click
-      end
-
-      within ".callout-wrapper" do
-        expect(page).to have_content("successfully")
-      end
-
-      within "table" do
-        expect(page).to have_content("My updated voting")
+        within "table" do
+          expect(page).to have_content("My updated voting")
+        end
       end
     end
   end
