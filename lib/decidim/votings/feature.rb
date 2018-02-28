@@ -38,6 +38,29 @@ Decidim.register_feature(:votings) do |feature|
   end
 
   feature.seeds do |participatory_space|
-    # Define seeds for a specific participatory_space object
+    feature = Decidim::Feature.create!(
+      name: Decidim::Features::Namer.new(participatory_space.organization.available_locales, :votings).i18n_name,
+      manifest_name: :votings,
+      published_at: Time.current,
+      participatory_space: participatory_space
+    )
+
+    3.times do
+      Decidim::Votings::Voting.create!(
+        feature: feature,
+        title: Decidim::Faker::Localized.sentence(3),
+        description: Decidim::Faker::Localized.wrapped("<p>", "</p>") do
+          Decidim::Faker::Localized.sentence(4)
+        end,
+        simulation_code: 0,
+        start_date: 2.days.ago,
+        end_date: 2.days.from_now,
+        census_date_limit: 2.days.from_now,
+        voting_system: "nVotes",
+        voting_domain_name: "example.org",
+        voting_identifier: 666,
+        shared_key: "SHARED_KEY"
+      )
+    end
   end
 end
