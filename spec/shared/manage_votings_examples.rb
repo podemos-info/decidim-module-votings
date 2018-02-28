@@ -6,6 +6,14 @@ shared_examples "manage votings" do
       find(".card-title a.button").click
     end
 
+    it "properly toggles the scopes checkbox" do
+      expect(page).to have_selector("#voting_decidim_scope_id", class: "disabled")
+
+      check "Scopes enabled"
+
+      expect(page).to have_no_selector("#voting_decidim_scope_id", class: "disabled")
+    end
+
     context "with invalid data" do
       before do
         within ".new_voting" do
