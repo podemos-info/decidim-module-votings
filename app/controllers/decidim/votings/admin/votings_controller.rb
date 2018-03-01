@@ -7,13 +7,13 @@ module Decidim
         helper Decidim::Votings::Admin::VotingsHelper
         helper Decidim::Votings::VotingsHelper
 
-        before_action :init_form_from_params, only: [:create, :update]
-
         def new
           @form = voting_form.instance
         end
 
         def create
+          @form = voting_form.from_params(params)
+
           CreateVoting.call(@form) do
             on(:ok) do
               flash[:notice] = I18n.t("votings.create.success", scope: "decidim.votings.admin")
@@ -33,6 +33,8 @@ module Decidim
         end
 
         def update
+          @form = voting_form.from_params(params)
+
           UpdateVoting.call(@form, voting) do
             on(:ok) do
               flash[:notice] = I18n.t("votings.update.success", scope: "decidim.votings.admin")
@@ -53,10 +55,6 @@ module Decidim
         end
 
         private
-
-        def init_form_from_params
-          @form = voting_form.from_params(params)
-        end
 
         def voting_form
           form(VotingForm)
