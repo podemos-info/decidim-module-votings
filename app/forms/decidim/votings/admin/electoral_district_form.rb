@@ -16,6 +16,18 @@ module Decidim
         def scope
           @scope ||= Decidim::Scope.find_by(id: decidim_scope_id)
         end
+
+        def for_creation?
+          id.nil?
+        end
+
+        def for_update?
+          !id.nil? && !delete
+        end
+
+        def for_removal?
+          !id.nil? && delete
+        end
       end
     end
   end

@@ -38,6 +38,7 @@ module Decidim
         let(:voting_identifier) { "identifier" }
         let(:change_shared_key) { true }
         let(:shared_key) { "SHARED_KEY" }
+        let(:electoral_districts) { [] }
 
         let(:form) do
           double(
@@ -56,7 +57,8 @@ module Decidim
             voting_domain_name: voting_domain_name,
             voting_identifier: voting_identifier,
             change_shared_key: change_shared_key,
-            shared_key: shared_key
+            shared_key: shared_key,
+            electoral_districts: electoral_districts
           )
         end
         let(:invalid) { false }
@@ -86,6 +88,75 @@ module Decidim
             expect(updated_voting.voting_system).to eq voting_system
             expect(updated_voting.voting_domain_name).to eq voting_domain_name
             expect(updated_voting.shared_key).to eq shared_key
+          end
+        end
+
+        context "when electoral districts present" do
+          let(:for_creation) { false }
+          let(:for_update) { false }
+          let(:for_removal) { false }
+
+          let(:child_scope) { create(:scope, parent: scope) }
+          let(:id) { nil }
+
+          let(:electoral_districts) do
+            [
+              double(
+                ElectoralDistrictForm,
+                for_creation?: for_creation,
+                for_update?: for_update,
+                for_removal?: for_removal,
+                id: id,
+                voting_identifier: "NEW",
+                scope: child_scope
+              )
+            ]
+          end
+
+          context "when marked to be created" do
+            let(:for_creation) { true }
+
+            it "creates an electoral district record in addition" do
+              expect { subject.call }.to change(Decidim::Votings::ElectoralDistrict, :count).by(1)
+            end
+          end
+
+          context "when marked to be updated" do
+            let!(:electoral_district) do
+              create(:electoral_district, voting: voting, voting_identifier: "OLD")
+            end
+
+            let(:for_update) { true }
+            let(:id) { electoral_district.id }
+
+            it "creates the voting but does not change the electoral district record count" do
+              expect { subject.call }.not_to change(Decidim::Votings::ElectoralDistrict, :count)
+            end
+
+            it "updates the electoral district record" do
+              subject.call
+
+              expect(electoral_district.reload.voting_identifier).to eq("NEW")
+            end
+          end
+
+          context "when marked to be deleted" do
+            let!(:electoral_district) do
+              create(:electoral_district, voting: voting)
+            end
+
+            let(:for_removal) { true }
+            let(:id) { electoral_district.id }
+
+            it "deletes an electoral district record" do
+              expect { subject.call }.to change(Decidim::Votings::ElectoralDistrict, :count).by(-1)
+            end
+
+            it "deletes the right electoral district record" do
+              subject.call
+
+              expect { electoral_district.reload }.to raise_error(ActiveRecord::RecordNotFound)
+            end
           end
         end
 
