@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/decidim/decidim
-  revision: 8415b268fd94d4cd7bc752659827f852e5c3ce70
+  revision: 697c1dbc648c1cc19f6f415ef1bd2c584b998b64
   branch: master
   specs:
     decidim (0.10.0.pre)
@@ -296,12 +296,12 @@ GEM
       activesupport (>= 4.1, < 6.0)
       railties (>= 4.1, < 6.0)
       tzinfo (~> 1.2, >= 1.2.2)
-    geocoder (1.4.5)
+    geocoder (1.4.6)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     graphiql-rails (1.4.9)
       rails
-    graphql (1.7.12)
+    graphql (1.7.13)
     hashdiff (0.3.7)
     hashie (3.5.7)
     high_voltage (3.0.0)
