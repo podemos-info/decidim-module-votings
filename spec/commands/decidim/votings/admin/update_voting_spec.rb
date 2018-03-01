@@ -106,6 +106,7 @@ module Decidim
 
           it "sets all attributes received from the form except shared key" do
             subject.call
+
             expect(updated_voting.title).to eq title
             expect(updated_voting.description).to eq description
             expect(updated_voting.image.path.split("/").last).to eq "city.jpeg"
