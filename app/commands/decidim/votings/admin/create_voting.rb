@@ -11,14 +11,19 @@ module Decidim
         # Broadcasts :ok if successful, :invalid otherwise.
         def call
           return broadcast(:invalid) if form.invalid?
-          create_voting
+
+          transaction do
+            create_voting
+            create_electoral_districts
+          end
+
           broadcast(:ok)
         end
 
         private
 
         def create_voting
-          Voting.create!(
+          @voting ||= Voting.create!(
             feature: form.current_feature,
             title: form.title,
             description: form.description,
@@ -34,6 +39,15 @@ module Decidim
             voting_identifier: form.voting_identifier,
             shared_key: form.shared_key
           )
+        end
+
+        def create_electoral_districts
+          form.electoral_districts.each do |electoral_district_form|
+            @voting.electoral_districts.create!(
+              scope: electoral_district_form.scope,
+              voting_identifier: electoral_district_form.voting_identifier
+            )
+          end
         end
       end
     end
