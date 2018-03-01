@@ -53,6 +53,7 @@ module Decidim
             shared_key: shared_key
           )
         end
+
         let(:invalid) { false }
 
         context "when the form is not valid" do
@@ -72,11 +73,13 @@ module Decidim
 
           it "sets the feature" do
             subject.call
+
             expect(project.feature).to eq current_feature
           end
 
           it "sets all attributes received from the form" do
             subject.call
+
             expect(project.title).to eq title
             expect(project.description).to eq description
             expect(project.image.path.split("/").last).to eq "city.jpeg"
