@@ -26,6 +26,7 @@ module Decidim
         attribute :simulation_code, Integer
         attribute :can_change_shared_key, Boolean
         attribute :change_shared_key, Boolean
+        attribute :electoral_districts, Array[ElectoralDistrictForm]
 
         validates :title, translatable_presence: true
         validates :description, translatable_presence: true

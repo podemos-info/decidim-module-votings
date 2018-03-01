@@ -1,0 +1,15 @@
+<div class="card-section electoral-district-fields">
+  <span class="inline-field inline-field--main">
+    <%= scopes_picker_field builder, :scope, options: { label: false } %>
+  </span>
+
+  <span class="inline-field">
+    <%= builder.text_field :voting_identifier, label: false, placeholder: "Voting identifier" %>
+    <%= builder.hidden_field :id, disabled: builder.object.persisted? %>
+    <%= builder.hidden_field :delete, disabled: builder.object.persisted? %>
+  </span>
+
+  <span class="inline-field inline-field--action">
+    <%= icon_link_to "circle-x", "#", t(".remove"), class: "action-icon--remove remove-electoral-district" %>
+  </span>
+</div>

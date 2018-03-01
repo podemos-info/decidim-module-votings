@@ -21,6 +21,14 @@ module Decidim
         def voting_statuses_options
           Decidim::Votings::Voting.statuses.keys.map { |status| [I18n.t(status, scope: "activemodel.attributes.voting.statuses"), status] }
         end
+
+        def link_to_add_electoral_district(label, form)
+          form_content = form.fields_for :electoral_districts, ElectoralDistrictForm.new do |builder|
+            render "decidim/votings/admin/votings/electoral_district_fields", builder: builder
+          end
+
+          link_to label, "#", class: "add-electoral-district", data: { "form-content" => form_content.html_safe }
+        end
       end
     end
   end

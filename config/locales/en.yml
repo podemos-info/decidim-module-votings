@@ -1,3 +1,5 @@
+---
+
 en:
   activemodel:
     errors:
@@ -67,8 +69,13 @@ en:
               one: Votación
               other: Votaciones
         votings:
+          electoral_district_fields:
+            remove: Remove
+            title: Electoral district information
           form:
+            add_electoral_district: Add electoral district information
             start_date_help: Start date
+            electoral_districts: Electoral districts
             end_date_help: End date
             census_date_limit_help: Census closing date.
           index:

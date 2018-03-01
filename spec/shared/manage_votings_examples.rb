@@ -14,6 +14,14 @@ shared_examples "manage votings" do
       expect(page).to have_no_selector("#voting_decidim_scope_id", class: "disabled")
     end
 
+    it "allows adding electoral district information" do
+      click_link "Add electoral district information"
+      expect(page).to have_selector(".electoral-district-fields", count: 1)
+
+      page.find(".action-icon--remove").click
+      expect(page).to have_selector(".electoral-district-fields", count: 0)
+    end
+
     context "with invalid data" do
       before do
         within ".new_voting" do
