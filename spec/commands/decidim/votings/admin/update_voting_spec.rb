@@ -8,12 +8,16 @@ module Decidim
       describe UpdateVoting do
         subject { described_class.new(form, voting) }
 
-        let(:organization) { create(:organization) }
-        let(:participatory_process) do
-          create :participatory_process, organization: organization
+        let(:organization) do
+          create(:organization)
         end
+
+        let(:participatory_process) do
+          create(:participatory_process, organization: organization)
+        end
+
         let(:current_feature) do
-          create :voting_feature, participatory_space: participatory_process
+          create(:voting_feature, participatory_space: participatory_process)
         end
 
         let(:initial_shared_key) { "INITIAL" }
@@ -24,7 +28,7 @@ module Decidim
         let(:image) { Decidim::Dev.test_file("city.jpeg", "image/jpeg") }
         let(:start_date) { (Time.zone.today + 1.day).strftime("%Y-%m-%d") }
         let(:end_date) { (Time.zone.today + 5.days).strftime("%Y-%m-%d") }
-        let(:scope) { create :scope, organization: organization }
+        let(:scope) { create(:scope, organization: organization) }
         let(:scope_id) { scope.id }
         let(:importance) { ::Faker::Number.number(2).to_i }
         let(:census_date_limit) { Time.zone.today.strftime("%Y-%m-%d") }
