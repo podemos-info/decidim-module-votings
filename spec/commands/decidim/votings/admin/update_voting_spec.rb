@@ -16,13 +16,6 @@ module Decidim
           create :voting_feature, participatory_space: participatory_process
         end
 
-        let(:context) do
-          {
-            current_organization: organization,
-            current_feature: current_feature
-          }
-        end
-
         let(:initial_shared_key) { "INITIAL" }
         let(:voting) { create(:voting, feature: current_feature, shared_key: initial_shared_key) }
 
