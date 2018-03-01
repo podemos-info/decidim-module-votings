@@ -98,7 +98,11 @@
     </div>
 
     <div class="card-section">
-      <%= link_to_add_electoral_district t(".add_electoral_district"), form %>
+      <% form.object.electoral_districts.each do |electoral_district| %>
+        <%= render "electoral_district_fields", electoral_district: electoral_district %>
+      <% end %>
+
+      <%= link_to_add_electoral_district t(".add_electoral_district") %>
     </div>
   </div>
 <% end %>

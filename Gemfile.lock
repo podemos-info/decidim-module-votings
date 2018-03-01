@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/decidim/decidim
-  revision: 27ed420db77a8bf2b742f1bc7e67f1c8131dcfc3
-  branch: master
+  revision: c804c7c550228a6a8aa29ab9e28329f270514f2b
+  branch: scopes_missing_features
   specs:
     decidim (0.10.0.pre)
       decidim-accountability (= 0.10.0.pre)

@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby RUBY_VERSION
 
-gem "decidim", git: "https://github.com/decidim/decidim", branch: "master"
+gem "decidim", git: "https://github.com/decidim/decidim", branch: "scopes_missing_features"
 gem "decidim-votings", path: "."
 
 gem "puma", "~> 3.0"
@@ -13,7 +13,7 @@ gem "uglifier", "~> 4.1"
 group :development, :test do
   gem "byebug", "~> 10.0", platform: :mri
 
-  gem "decidim-dev", git: "https://github.com/decidim/decidim", branch: "master"
+  gem "decidim-dev", git: "https://github.com/decidim/decidim", branch: "scopes_missing_features"
 end
 
 group :development do

@@ -15,11 +15,27 @@ shared_examples "manage votings" do
     end
 
     it "allows adding electoral district information" do
-      click_link "Add electoral district information"
-      expect(page).to have_selector(".electoral-district-fields", count: 1)
+      fill_in_voting_form(
+        "en" => "My voting",
+        "es" => "Mi votación",
+        "ca" => "La meua votació"
+      )
 
-      page.find(".action-icon--remove").click
-      expect(page).to have_selector(".electoral-district-fields", count: 0)
+      click_link "Add electoral district information"
+      scope_pick scopes_picker_find(:voting_electoral_districts__decidim_scope_id), scope
+      fill_in "Voting identifier", with: "981"
+
+      click_button "Create"
+      expect(page).to have_content("Voting created successfully")
+
+      within page.find("tr", text: "My voting") do
+        page.find(".icon--pencil").click
+      end
+
+      within page.find(".card", text: "ELECTORAL DISTRICTS") do
+        expect(page).to have_content(scope.name["en"])
+        expect(page).to have_field("Voting identifier", with: "981")
+      end
     end
 
     context "with invalid data" do
@@ -70,6 +86,58 @@ shared_examples "manage votings" do
     before do
       within find("tr", text: translated(voting.title)) do
         page.find("a.action-icon--edit").click
+      end
+    end
+
+    it "allows changing electoral district information" do
+      child_scope = create(:scope, parent: scope, name: { "en" => "Burkina", "es" => "Burkona", "ca" => "Burkana" })
+      voting.electoral_districts.create!(scope: scope, voting_identifier: "666")
+      refresh
+
+      fill_in_voting_form(
+        "en" => "My voting",
+        "es" => "Mi votación",
+        "ca" => "La meua votació"
+      )
+
+      scope_repick scopes_picker_find(:voting_electoral_districts__decidim_scope_id), scope, child_scope
+      fill_in "Voting identifier", with: "981"
+
+      click_button "Update"
+      expect(page).to have_content("Voting updated successfully")
+
+      within page.find("tr", text: "My voting") do
+        page.find(".icon--pencil").click
+      end
+
+      within page.find(".card", text: "ELECTORAL DISTRICTS") do
+        expect(page).to have_content("Burkina")
+        expect(page).to have_field("Voting identifier", with: "981")
+      end
+    end
+
+    it "allows deleting electoral district information" do
+      voting.electoral_districts.create!(scope: scope, voting_identifier: "666")
+      refresh
+
+      fill_in_voting_form(
+        "en" => "My voting",
+        "es" => "Mi votación",
+        "ca" => "La meua votació"
+      )
+
+      page.find(".icon--circle-x").click
+
+      click_button "Update"
+      expect(page).to have_content("Voting updated successfully")
+
+      within page.find("tr", text: "My voting") do
+        page.find(".icon--pencil").click
+      end
+
+      within page.find(".card", text: "ELECTORAL DISTRICTS") do
+        expect(page).not_to have_content(scope.name["en"])
+        expect(page).not_to have_field("Voting identifier", with: "666")
       end
     end
 

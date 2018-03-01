@@ -8,7 +8,8 @@ module Decidim
       class ElectoralDistrictForm < Decidim::Form
         attribute :decidim_scope_id, Integer
         attribute :voting_identifier, String
-        attribute :delete, Boolean, default: false
+        attribute :deleted, Boolean, default: false
+        attribute :id, String
 
         validates :scope, presence: true
         validates :voting_identifier, presence: true
@@ -18,15 +19,15 @@ module Decidim
         end
 
         def for_creation?
-          id.nil?
+          id.blank?
         end
 
         def for_update?
-          !id.nil? && !delete
+          id.present? && !deleted
         end
 
         def for_removal?
-          !id.nil? && delete
+          id.present? && deleted
         end
       end
     end

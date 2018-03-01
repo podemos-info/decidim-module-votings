@@ -6,6 +6,7 @@ module Decidim
       class VotingsController < Admin::ApplicationController
         helper Decidim::Votings::Admin::VotingsHelper
         helper Decidim::Votings::VotingsHelper
+        helper Decidim::DecidimFormHelper
 
         def new
           @form = voting_form.instance
