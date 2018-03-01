@@ -3,7 +3,7 @@
 shared_examples "manage votings" do
   context "when creating a new voting" do
     before do
-      find(".card-title a.button").click
+      click_link "New"
     end
 
     it "properly toggles the scopes checkbox" do
