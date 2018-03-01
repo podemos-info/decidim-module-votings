@@ -34,6 +34,9 @@ plugins:
   markdownlint:
     enabled: true
 
+  stylelint:
+    enabled: true
+
 exclude_patterns:
   - development_app
   - spec/decidim_dummy_app
