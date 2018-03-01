@@ -39,6 +39,7 @@ module Decidim
         let(:voting_system) { "nVotes" }
         let(:voting_domain_name) { "test.org" }
         let(:voting_identifier) { "identifier" }
+        let(:change_shared_key) { true }
         let(:shared_key) { "SHARED_KEY" }
 
         let(:form) do
@@ -57,7 +58,7 @@ module Decidim
             voting_system: voting_system,
             voting_domain_name: voting_domain_name,
             voting_identifier: voting_identifier,
-            change_shared_key: true,
+            change_shared_key: change_shared_key,
             shared_key: shared_key
           )
         end
@@ -102,27 +103,9 @@ module Decidim
         end
 
         context "when shared_key not selected to be changed" do
+          let(:change_shared_key) { false }
+
           let(:updated_voting) { Decidim::Votings::Voting.last }
-          let(:form) do
-            double(
-              invalid?: invalid,
-              title: title,
-              description: description,
-              image: image,
-              start_date: start_date,
-              end_date: end_date,
-              scopes_enabled: true,
-              scope: scope,
-              importance: importance,
-              census_date_limit: census_date_limit,
-              simulation_code: simulation_code,
-              voting_system: voting_system,
-              voting_domain_name: voting_domain_name,
-              voting_identifier: voting_identifier,
-              change_shared_key: false,
-              shared_key: shared_key
-            )
-          end
 
           it "sets all attributes received from the form except shared key" do
             subject.call
