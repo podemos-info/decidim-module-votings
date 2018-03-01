@@ -15,9 +15,7 @@ FactoryBot.define do
       end
     end
   end
-end
 
-FactoryBot.define do
   factory :voting, class: Decidim::Votings::Voting do
     title { Decidim::Faker::Localized.sentence(3) }
     description { Decidim::Faker::Localized.wrapped("<p>", "</p>") { Decidim::Faker::Localized.sentence(4) } }
@@ -42,9 +40,7 @@ FactoryBot.define do
       end_date { DateTime.current - 1.day }
     end
   end
-end
 
-FactoryBot.define do
   factory :vote, class: Decidim::Votings::Vote do
     voting { create(:voting) }
     user { create(:user) }
