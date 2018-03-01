@@ -18,6 +18,7 @@ development_app
 
 # rubocop cached remote config
 .rubocop-https---raw-githubusercontent-com-decidim-decidim-master--rubocop-yml
+.rubocop-https---raw-githubusercontent-com-decidim-decidim-master--rubocop-rails-yml
 
 # npm packages
 /node_modules/

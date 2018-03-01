@@ -2,3 +2,4 @@
 
 inherit_from:
   - https://raw.githubusercontent.com/decidim/decidim/master/.rubocop.yml
+  - https://raw.githubusercontent.com/decidim/decidim/master/.rubocop_rails.yml
