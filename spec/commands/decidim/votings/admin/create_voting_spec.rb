@@ -65,7 +65,7 @@ module Decidim
         end
 
         context "when everything is ok" do
-          let(:project) { Decidim::Votings::Voting.last }
+          let(:voting) { Decidim::Votings::Voting.last }
 
           it "creates the voting" do
             expect { subject.call }.to change { Decidim::Votings::Voting.count }.by(1)
@@ -74,23 +74,23 @@ module Decidim
           it "sets the feature" do
             subject.call
 
-            expect(project.feature).to eq current_feature
+            expect(voting.feature).to eq current_feature
           end
 
           it "sets all attributes received from the form" do
             subject.call
 
-            expect(project.title).to eq title
-            expect(project.description).to eq description
-            expect(project.image.path.split("/").last).to eq "city.jpeg"
-            expect(project.start_date.strftime("%Y-%m-%d")).to eq start_date
-            expect(project.end_date.strftime("%Y-%m-%d")).to eq end_date
-            expect(project.decidim_scope_id).to eq scope_id
-            expect(project.importance).to eq importance
-            expect(project.census_date_limit.strftime("%Y-%m-%d")).to eq census_date_limit
-            expect(project.simulation_code).to eq simulation_code
-            expect(project.voting_system).to eq voting_system
-            expect(project.voting_domain_name).to eq voting_domain_name
+            expect(voting.title).to eq title
+            expect(voting.description).to eq description
+            expect(voting.image.path.split("/").last).to eq "city.jpeg"
+            expect(voting.start_date.strftime("%Y-%m-%d")).to eq start_date
+            expect(voting.end_date.strftime("%Y-%m-%d")).to eq end_date
+            expect(voting.decidim_scope_id).to eq scope_id
+            expect(voting.importance).to eq importance
+            expect(voting.census_date_limit.strftime("%Y-%m-%d")).to eq census_date_limit
+            expect(voting.simulation_code).to eq simulation_code
+            expect(voting.voting_system).to eq voting_system
+            expect(voting.voting_domain_name).to eq voting_domain_name
           end
         end
       end
