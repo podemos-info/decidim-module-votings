@@ -13,7 +13,6 @@ en:
         start_date: Start date
         end_date: End date
         image: Image
-        scopes_enabled: Scopes enabled
         decidim_scope: Scope
         decidim_scope_id: Scope
         status: Status

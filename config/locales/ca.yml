@@ -11,7 +11,6 @@ es:
         start_date: Data d'inici
         end_date: Data de fi
         image: Imatge
-        scopes_enabled: Àmbit habilitat
         decidim_scope: Àmbit
         decidim_scope_id: Ámbit
         status: Estat
