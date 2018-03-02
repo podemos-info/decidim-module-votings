@@ -15,7 +15,6 @@ module Decidim
         attribute :start_date, Decidim::Attributes::TimeWithZone
         attribute :end_date, Decidim::Attributes::TimeWithZone
         attribute :image, String
-        attribute :scopes_enabled, Boolean
         attribute :decidim_scope_id, Integer
         attribute :importance, Integer
         attribute :census_date_limit, Decidim::Attributes::TimeWithZone
@@ -42,7 +41,6 @@ module Decidim
         validate :voting_range_in_process_bounds
 
         def map_model(voting)
-          self.scopes_enabled = voting.scope.present?
           self.can_change_shared_key = voting.can_change_shared_key?
           self.change_shared_key = false
           self.electoral_districts = voting.electoral_districts.map do |electoral_district|
@@ -56,7 +54,7 @@ module Decidim
 
         def scope
           return unless current_feature
-          return space_scope if !scopes_enabled || decidim_scope_id.blank?
+          return space_scope if decidim_scope_id.blank?
           @scope ||= (space_scope.try(:descendants) || current_feature.scopes).where(id: decidim_scope_id).first
         end
 

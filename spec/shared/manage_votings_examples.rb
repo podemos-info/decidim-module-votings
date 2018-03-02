@@ -6,14 +6,6 @@ shared_examples "manage votings" do
       click_link "New"
     end
 
-    it "properly toggles the scopes checkbox" do
-      expect(page).to have_selector("#voting_decidim_scope_id", class: "disabled")
-
-      check "Scopes enabled"
-
-      expect(page).to have_no_selector("#voting_decidim_scope_id", class: "disabled")
-    end
-
     it "allows adding electoral district information" do
       fill_in_voting_form(
         "en" => "My voting",

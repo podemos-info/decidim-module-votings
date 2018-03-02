@@ -48,7 +48,6 @@ module Decidim
             image: image,
             start_date: start_date,
             end_date: end_date,
-            scopes_enabled: true,
             decidim_scope_id: scope_id,
             importance: importance,
             census_date_limit: census_date_limit,
