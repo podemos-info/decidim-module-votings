@@ -23,7 +23,11 @@ module Decidim
         end
 
         def link_to_add_electoral_district(label)
-          form_content = render "decidim/votings/admin/votings/electoral_district_fields", electoral_district: ElectoralDistrictForm.new
+          form_content = render(
+            "decidim/votings/admin/votings/electoral_district_fields",
+            electoral_district: ElectoralDistrictForm.new,
+            nested_form_id: "electoral-district-fields-id"
+          )
 
           link_to label, "#", class: "add-electoral-district", data: { "form-content" => form_content.html_safe }
         end

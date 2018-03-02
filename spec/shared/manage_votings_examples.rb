@@ -14,7 +14,7 @@ shared_examples "manage votings" do
       )
 
       click_link "Add electoral district information"
-      scope_pick scopes_picker_find(:voting_electoral_districts__decidim_scope_id), scope
+      scope_pick scopes_picker_find(:"electoral-district-fields-id-decidim-scope-id"), scope
       fill_in "Voting identifier", with: "981"
 
       click_button "Create"
@@ -83,7 +83,8 @@ shared_examples "manage votings" do
 
     it "allows changing electoral district information" do
       child_scope = create(:scope, parent: scope, name: { "en" => "Burkina", "es" => "Burkona", "ca" => "Burkana" })
-      voting.electoral_districts.create!(scope: scope, voting_identifier: "666")
+      electoral_district = voting.electoral_districts.create!(scope: scope, voting_identifier: "666")
+
       refresh
 
       fill_in_voting_form(
@@ -92,7 +93,7 @@ shared_examples "manage votings" do
         "ca" => "La meua votació"
       )
 
-      scope_repick scopes_picker_find(:voting_electoral_districts__decidim_scope_id), scope, child_scope
+      scope_repick scopes_picker_find(:"electoral-district-fields-#{electoral_district.id}-decidim-scope-id"), scope, child_scope
       fill_in "Voting identifier", with: "981"
 
       click_button "Update"
