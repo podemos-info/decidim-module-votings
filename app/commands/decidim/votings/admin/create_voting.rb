@@ -18,7 +18,7 @@ module Decidim
         private
 
         def create_voting
-          Voting.create(
+          Voting.create!(
             feature: form.current_feature,
             title: form.title,
             description: form.description,

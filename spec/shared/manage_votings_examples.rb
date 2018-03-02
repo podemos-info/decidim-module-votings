@@ -3,7 +3,7 @@
 shared_examples "manage votings" do
   context "when creating a new voting" do
     before do
-      find(".card-title a.button").click
+      click_link "New"
     end
 
     it "properly toggles the scopes checkbox" do
@@ -35,34 +35,11 @@ shared_examples "manage votings" do
 
     context "with valid data" do
       before do
-        fill_in_i18n(
-          :voting_title,
-          "#voting-title-tabs",
-          en: "My voting",
-          es: "Mi votación",
-          ca: "La meua votació"
+        fill_in_voting_form(
+          "en" => "My voting",
+          "es" => "Mi votación",
+          "ca" => "La meua votació"
         )
-
-        fill_in_i18n_editor(
-          :voting_description,
-          "#voting-description-tabs",
-          en: "My voting description",
-          es: "La descripción de la votación",
-          ca: "La descripció de la votació"
-        )
-
-        fill_in :voting_importance, with: "1"
-        fill_in :voting_simulation_code, with: "5"
-
-        page.execute_script("$('#datetime_field_voting_start_date').focus()")
-        page.find(".datepicker-dropdown .day", text: "12").click
-        page.find(".datepicker-dropdown .hour", text: "10:00").click
-        page.find(".datepicker-dropdown .minute", text: "10:50").click
-
-        page.execute_script("$('#datetime_field_voting_end_date').focus()")
-        page.find(".datepicker-dropdown .day", text: "12").click
-        page.find(".datepicker-dropdown .hour", text: "12:00").click
-        page.find(".datepicker-dropdown .minute", text: "12:50").click
 
         within ".new_voting" do
           find("*[type=submit]").click
@@ -108,35 +85,11 @@ shared_examples "manage votings" do
 
     context "with valid data" do
       before do
-        within ".edit_voting" do
-          fill_in_i18n(
-            :voting_title,
-            "#voting-title-tabs",
-            en: "My updated voting",
-            es: "Mi votación actualizada",
-            ca: "La meua votació actualitzada"
-          )
-
-          fill_in_i18n_editor(
-            :voting_description,
-            "#voting-description-tabs",
-            en: "My updated voting description",
-            es: "La descripción de la votación actualizada",
-            ca: "La descripció de la votació actualitzada"
-          )
-          fill_in :voting_importance, with: "1"
-          fill_in :voting_simulation_code, with: "5"
-        end
-
-        page.execute_script("$('#datetime_field_voting_start_date').focus()")
-        page.find(".datepicker-dropdown .day", text: "12").click
-        page.find(".datepicker-dropdown .hour", text: "10:00").click
-        page.find(".datepicker-dropdown .minute", text: "10:50").click
-
-        page.execute_script("$('#datetime_field_voting_end_date').focus()")
-        page.find(".datepicker-dropdown .day", text: "12").click
-        page.find(".datepicker-dropdown .hour", text: "12:00").click
-        page.find(".datepicker-dropdown .minute", text: "12:50").click
+        fill_in_voting_form(
+          "en" => "My updated voting",
+          "es" => "Mi votación actualizada",
+          "ca" => "La meua votació actualitzada"
+        )
 
         within ".edit_voting" do
           find("*[type=submit]").click
@@ -189,5 +142,38 @@ shared_examples "manage votings" do
         expect(page).to have_content(translated(voting.title))
       end
     end
+  end
+
+  private
+
+  def fill_in_voting_form(title)
+    fill_in_i18n(
+      :voting_title,
+      "#voting-title-tabs",
+      en: title["en"],
+      es: title["es"],
+      ca: title["ca"]
+    )
+
+    fill_in_i18n_editor(
+      :voting_description,
+      "#voting-description-tabs",
+      en: "My voting description",
+      es: "La descripción de la votación",
+      ca: "La descripció de la votació"
+    )
+
+    fill_in :voting_importance, with: "1"
+    fill_in :voting_simulation_code, with: "5"
+
+    page.execute_script("$('#datetime_field_voting_start_date').focus()")
+    page.find(".datepicker-dropdown .day", text: "12").click
+    page.find(".datepicker-dropdown .hour", text: "10:00").click
+    page.find(".datepicker-dropdown .minute", text: "10:50").click
+
+    page.execute_script("$('#datetime_field_voting_end_date').focus()")
+    page.find(".datepicker-dropdown .day", text: "12").click
+    page.find(".datepicker-dropdown .hour", text: "12:00").click
+    page.find(".datepicker-dropdown .minute", text: "12:50").click
   end
 end
