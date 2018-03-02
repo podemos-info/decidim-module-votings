@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/decidim/decidim
-  revision: c804c7c550228a6a8aa29ab9e28329f270514f2b
+  revision: cb70aded58b9215a495f0509e49daef930eec478
   branch: scopes_missing_features
   specs:
     decidim (0.10.0.pre)
