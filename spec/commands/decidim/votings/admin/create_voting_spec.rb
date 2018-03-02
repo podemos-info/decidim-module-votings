@@ -33,6 +33,19 @@ module Decidim
         let(:voting_domain_name) { "test.org" }
         let(:voting_identifier) { "identifier" }
         let(:shared_key) { "SHARED_KEY" }
+
+        let(:child_scope) { create(:scope, parent: scope) }
+
+        let(:electoral_districts) do
+          [
+            double(
+              ElectoralDistrictForm,
+              voting_identifier: "NEW",
+              scope: child_scope
+            )
+          ]
+        end
+
         let(:form) do
           double(
             invalid?: invalid,
@@ -50,7 +63,8 @@ module Decidim
             voting_domain_name: voting_domain_name,
             current_feature: current_feature,
             voting_identifier: voting_identifier,
-            shared_key: shared_key
+            shared_key: shared_key,
+            electoral_districts: electoral_districts
           )
         end
 
@@ -75,6 +89,14 @@ module Decidim
             subject.call
 
             expect(voting.feature).to eq current_feature
+          end
+
+          it "sets the electoral districts" do
+            subject.call
+
+            expect(voting.electoral_districts.count).to eq(1)
+            expect(voting.electoral_districts.first.voting_identifier).to eq("NEW")
+            expect(voting.electoral_districts.first.scope).to eq(child_scope)
           end
 
           it "sets all attributes received from the form" do

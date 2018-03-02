@@ -26,6 +26,7 @@ module Decidim
         attribute :simulation_code, Integer
         attribute :can_change_shared_key, Boolean
         attribute :change_shared_key, Boolean
+        attribute :electoral_districts, Array[ElectoralDistrictForm]
 
         validates :title, translatable_presence: true
         validates :description, translatable_presence: true
@@ -44,6 +45,9 @@ module Decidim
           self.scopes_enabled = voting.scope.present?
           self.can_change_shared_key = voting.can_change_shared_key?
           self.change_shared_key = false
+          self.electoral_districts = voting.electoral_districts.map do |electoral_district|
+            ElectoralDistrictForm.from_model(electoral_district)
+          end
         end
 
         def space_scope

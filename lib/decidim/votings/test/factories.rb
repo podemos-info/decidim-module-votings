@@ -41,6 +41,13 @@ FactoryBot.define do
     end
   end
 
+  factory :electoral_district, class: "Decidim::Votings::ElectoralDistrict" do
+    scope
+    voting
+
+    voting_identifier 999
+  end
+
   factory :vote, class: "Decidim::Votings::Vote" do
     voting { create(:voting) }
     user { create(:user) }
