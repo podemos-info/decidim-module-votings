@@ -72,6 +72,17 @@ module Decidim
       def can_change_shared_key?
         simulated_votes.empty? && votes.empty?
       end
+
+      def voting_identifier_for(scope)
+        scope.part_of.each do |scope_id|
+          return voting_identifier if decidim_scope_id == scope_id
+
+          electoral_district = electoral_districts.find_by(decidim_scope_id: scope_id)
+          return electoral_district.voting_identifier if electoral_district
+        end
+
+        nil
+      end
     end
   end
 end
