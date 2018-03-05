@@ -8,7 +8,7 @@ module Decidim
       include Decidim::Resourceable
       include Decidim::HasFeature
       include Decidim::Followable
-      include Decidim::HasScope
+      include Decidim::ScopableFeature
 
       feature_manifest_name "votings"
 

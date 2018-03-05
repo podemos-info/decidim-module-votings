@@ -6,7 +6,7 @@ module Decidim
   module Votings
     module Admin
       describe VotingForm do
-        subject { described_class.from_params(attributes).with_context(context) }
+        subject(:form) { described_class.from_params(attributes).with_context(context) }
 
         let(:organization) { create(:organization) }
         let(:participatory_process) do
@@ -15,14 +15,11 @@ module Decidim
         let(:step) do
           create(:participatory_process_step, participatory_process: participatory_process)
         end
-        let(:current_feature) do
-          create :voting_feature, participatory_space: participatory_process
-        end
 
         let(:context) do
           {
             current_organization: organization,
-            current_feature: current_feature
+            current_participatory_space: participatory_process
           }
         end
 
@@ -61,31 +58,65 @@ module Decidim
 
         it { is_expected.to be_valid }
 
-        describe "when title is missing" do
+        context "when title is missing" do
           let(:title) { { en: nil } }
 
           it { is_expected.not_to be_valid }
         end
 
-        describe "when description is missing" do
+        context "when description is missing" do
           let(:description) { { en: nil } }
 
           it { is_expected.not_to be_valid }
         end
 
-        describe "when the scope does not exist" do
-          let(:scope_id) { scope.id + 10 }
+        describe "scope" do
+          subject { form.scope }
 
-          it { is_expected.not_to be_valid }
+          context "when the scope exists" do
+            it { is_expected.to be_kind_of(Decidim::Scope) }
+          end
+
+          context "when the scope does not exist" do
+            let(:scope_id) { scope.id + 10 }
+
+            it { is_expected.to eq(nil) }
+          end
+
+          context "when the scope is from another organization" do
+            let(:scope_id) { create(:scope).id }
+
+            it { is_expected.to eq(nil) }
+          end
+
+          context "when the participatory space has a scope" do
+            let(:parent_scope) { create(:scope, organization: organization) }
+            let(:participatory_process) { create(:participatory_process, organization: organization, scope: parent_scope) }
+            let(:scope) { create(:scope, organization: organization, parent: parent_scope) }
+
+            context "when the scope is descendant from participatory space scope" do
+              it { is_expected.to eq(scope) }
+            end
+
+            context "when the scope is not descendant from participatory space scope" do
+              let(:scope) { create(:scope, organization: organization) }
+
+              it { is_expected.to eq(scope) }
+
+              it "makes the form invalid" do
+                expect(form).to be_invalid
+              end
+            end
+          end
         end
 
-        describe "when start_date is after end_time" do
+        context "when start_date is after end_time" do
           let(:start_date) { end_date + 3.days }
 
           it { is_expected.not_to be_valid }
         end
 
-        describe "when end_time is before start_time" do
+        context "when end_time is before start_time" do
           let(:end_date) { start_date - 3.days }
 
           it { is_expected.not_to be_valid }
