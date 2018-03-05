@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/decidim/decidim
-  revision: 6ace80728713699556eb67778b0adb3d17c2f68f
-  branch: scopes_missing_features
+  revision: f6d10c043baf8de0488f971ea27c006160c49a6f
+  branch: master
   specs:
     decidim (0.10.0.pre)
       decidim-accountability (= 0.10.0.pre)
@@ -260,7 +260,7 @@ GEM
       railties (>= 4.1.0, < 5.2)
       responders
       warden (~> 1.2.3)
-    devise-i18n (1.6.0)
+    devise-i18n (1.6.1)
       devise (>= 4.4)
     devise_invitable (1.7.3)
       actionmailer (>= 4.1.0)

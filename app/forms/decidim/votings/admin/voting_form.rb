@@ -34,8 +34,6 @@ module Decidim
         validates :start_date, presence: true, date: { before: :end_date }
         validates :end_date, presence: true, date: { after: :start_date }
         validates :simulation_code, numericality: { only_integer: true }
-
-        validates :current_feature, presence: true
         validates :scope, presence: true, if: ->(form) { form.decidim_scope_id.present? }
 
         validate :voting_range_in_process_bounds
@@ -49,13 +47,12 @@ module Decidim
         end
 
         def space_scope
-          current_feature.participatory_space.scope
+          current_participatory_space.scope
         end
 
         def scope
-          return unless current_feature
           return space_scope if decidim_scope_id.blank?
-          @scope ||= (space_scope.try(:descendants) || current_feature.scopes).where(id: decidim_scope_id).first
+          @scope ||= (space_scope.try(:descendants) || current_participatory_space.scopes).where(id: decidim_scope_id).first
         end
 
         def voting_system
@@ -82,11 +79,11 @@ module Decidim
         end
 
         def steps?
-          context.current_feature.participatory_space.respond_to? :steps
+          context.current_participatory_space.respond_to? :steps
         end
 
         def steps
-          context.current_feature.participatory_space.steps
+          context.current_participatory_space.steps
         end
       end
     end

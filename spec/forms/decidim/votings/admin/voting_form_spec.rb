@@ -15,14 +15,11 @@ module Decidim
         let(:step) do
           create(:participatory_process_step, participatory_process: participatory_process)
         end
-        let(:current_feature) do
-          create :voting_feature, participatory_space: participatory_process
-        end
 
         let(:context) do
           {
             current_organization: organization,
-            current_feature: current_feature
+            current_participatory_space: participatory_process
           }
         end
 
