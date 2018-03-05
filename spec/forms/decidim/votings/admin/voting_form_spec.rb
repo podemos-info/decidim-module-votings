@@ -6,7 +6,7 @@ module Decidim
   module Votings
     module Admin
       describe VotingForm do
-        subject { described_class.from_params(attributes).with_context(context) }
+        subject(:form) { described_class.from_params(attributes).with_context(context) }
 
         let(:organization) { create(:organization) }
         let(:participatory_process) do
@@ -70,10 +70,44 @@ module Decidim
           it { is_expected.not_to be_valid }
         end
 
-        context "when the scope does not exist" do
-          let(:scope_id) { scope.id + 10 }
+        describe "scope" do
+          subject { form.scope }
 
-          it { is_expected.not_to be_valid }
+          context "when the scope exists" do
+            it { is_expected.to be_kind_of(Decidim::Scope) }
+          end
+
+          context "when the scope does not exist" do
+            let(:scope_id) { scope.id + 10 }
+
+            it { is_expected.to eq(nil) }
+          end
+
+          context "when the scope is from another organization" do
+            let(:scope_id) { create(:scope).id }
+
+            it { is_expected.to eq(nil) }
+          end
+
+          context "when the participatory space has a scope" do
+            let(:parent_scope) { create(:scope, organization: organization) }
+            let(:participatory_process) { create(:participatory_process, organization: organization, scope: parent_scope) }
+            let(:scope) { create(:scope, organization: organization, parent: parent_scope) }
+
+            context "when the scope is descendant from participatory space scope" do
+              it { is_expected.to eq(scope) }
+            end
+
+            context "when the scope is not descendant from participatory space scope" do
+              let(:scope) { create(:scope, organization: organization) }
+
+              it { is_expected.to eq(scope) }
+
+              it "makes the form invalid" do
+                expect(form).to be_invalid
+              end
+            end
+          end
         end
 
         context "when start_date is after end_time" do

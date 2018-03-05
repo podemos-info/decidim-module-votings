@@ -36,6 +36,7 @@ module Decidim
         validates :simulation_code, numericality: { only_integer: true }
         validates :scope, presence: true, if: ->(form) { form.decidim_scope_id.present? }
 
+        validate :scope_belongs_to_participatory_space_scope
         validate :voting_range_in_process_bounds
 
         def map_model(voting)
@@ -46,13 +47,18 @@ module Decidim
           end
         end
 
-        def space_scope
-          current_participatory_space.scope
+        # Finds the Scope from the given decidim_scope_id, uses participatory space scope if missing.
+        #
+        # Returns a Decidim::Scope
+        def scope
+          @scope ||= @decidim_scope_id ? current_participatory_space.scopes.find_by(id: @decidim_scope_id) : current_participatory_space.scope
         end
 
-        def scope
-          return space_scope if decidim_scope_id.blank?
-          @scope ||= (space_scope.try(:descendants) || current_participatory_space.scopes).where(id: decidim_scope_id).first
+        # Scope identifier
+        #
+        # Returns the scope identifier related to the proposal
+        def decidim_scope_id
+          @decidim_scope_id || scope&.id
         end
 
         def voting_system
@@ -60,6 +66,10 @@ module Decidim
         end
 
         private
+
+        def scope_belongs_to_participatory_space_scope
+          errors.add(:decidim_scope_id, :invalid) if current_participatory_space.out_of_scope?(scope)
+        end
 
         # Validates that start_date and end_date are inside participatory process bounds.
         def voting_range_in_process_bounds
