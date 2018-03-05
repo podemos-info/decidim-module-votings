@@ -58,31 +58,31 @@ module Decidim
 
         it { is_expected.to be_valid }
 
-        describe "when title is missing" do
+        context "when title is missing" do
           let(:title) { { en: nil } }
 
           it { is_expected.not_to be_valid }
         end
 
-        describe "when description is missing" do
+        context "when description is missing" do
           let(:description) { { en: nil } }
 
           it { is_expected.not_to be_valid }
         end
 
-        describe "when the scope does not exist" do
+        context "when the scope does not exist" do
           let(:scope_id) { scope.id + 10 }
 
           it { is_expected.not_to be_valid }
         end
 
-        describe "when start_date is after end_time" do
+        context "when start_date is after end_time" do
           let(:start_date) { end_date + 3.days }
 
           it { is_expected.not_to be_valid }
         end
 
-        describe "when end_time is before start_time" do
+        context "when end_time is before start_time" do
           let(:end_date) { start_date - 3.days }
 
           it { is_expected.not_to be_valid }
