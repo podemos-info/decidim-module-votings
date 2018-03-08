@@ -43,6 +43,7 @@ describe "Explore votings", type: :system do
       end
     end
   end
+
   context "with show" do
     context "when he user is logged in" do
       before do
