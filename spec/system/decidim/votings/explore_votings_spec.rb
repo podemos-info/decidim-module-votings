@@ -45,7 +45,7 @@ describe "Explore votings", type: :system do
   end
 
   describe "show page" do
-    context "when he user is logged in" do
+    context "when the user is logged in" do
       before do
         login_as user, scope: :user
       end
