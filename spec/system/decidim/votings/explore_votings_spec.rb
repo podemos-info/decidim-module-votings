@@ -62,7 +62,7 @@ describe "Explore votings", type: :system do
         expect(page).to have_content("Agora")
       end
 
-      context "when user has voted" do
+      context "and the user has already voted" do
         let!(:vote) { create :vote, :confirmed, voting: voting, user: user }
 
         it "has a message informing" do
