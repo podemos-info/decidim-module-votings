@@ -65,8 +65,11 @@ describe "Explore votings", type: :system do
       context "and the user has already voted" do
         let!(:vote) { create :vote, :confirmed, voting: voting, user: user }
 
-        it "has a message informing" do
+        before do
           visit_component
+        end
+
+        it "shows a message informing" do
           click_link translated(voting.title)
           expect(page).to have_content("already voted")
         end
