@@ -50,27 +50,25 @@ describe "Explore votings", type: :system do
         login_as user, scope: :user
       end
 
-      context "when visiting detail" do
-        it "has button for voting" do
+      it "has button for voting" do
+        visit_component
+        click_link translated(voting.title)
+        expect(page).to have_button("Vote")
+      end
+
+      it "has a message about voting system used" do
+        visit_component
+        click_link translated(voting.title)
+        expect(page).to have_content("Agora")
+      end
+
+      context "when user has voted" do
+        let!(:vote) { create :vote, :confirmed, voting: voting, user: user }
+
+        it "has a message informing" do
           visit_component
           click_link translated(voting.title)
-          expect(page).to have_button("Vote")
-        end
-
-        it "has a message about voting system used" do
-          visit_component
-          click_link translated(voting.title)
-          expect(page).to have_content("Agora")
-        end
-
-        context "when user has voted" do
-          let!(:vote) { create :vote, :confirmed, voting: voting, user: user }
-
-          it "has a message informing" do
-            visit_component
-            click_link translated(voting.title)
-            expect(page).to have_content("already voted")
-          end
+          expect(page).to have_content("already voted")
         end
       end
     end
