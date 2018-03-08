@@ -11,7 +11,7 @@ describe "Explore votings", type: :system do
   let!(:voting) { Decidim::Votings::Voting.where(component: component).first }
   let!(:user) { create :user, :confirmed, organization: organization }
 
-  context "with index" do
+  describe "index page" do
     context "when all votings are active" do
       it "shows all votings" do
         visit_component
@@ -44,7 +44,7 @@ describe "Explore votings", type: :system do
     end
   end
 
-  context "with show" do
+  describe "show page" do
     context "when he user is logged in" do
       before do
         login_as user, scope: :user
