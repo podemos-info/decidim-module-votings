@@ -4,6 +4,7 @@ require "spec_helper"
 
 describe "Explore votings", type: :system do
   include_context "with a component"
+
   let(:manifest_name) { "votings" }
 
   let(:votings_count) { 5 }
