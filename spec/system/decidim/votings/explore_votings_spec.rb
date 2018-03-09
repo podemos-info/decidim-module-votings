@@ -7,13 +7,14 @@ describe "Explore votings", type: :system do
 
   let(:manifest_name) { "votings" }
 
-  let(:votings_count) { 5 }
-  let!(:votings) { create_list(:voting, votings_count, :n_votes, component: component) }
-  let!(:voting) { Decidim::Votings::Voting.where(component: component).first }
-  let!(:user) { create :user, :confirmed, organization: organization }
-
   describe "index page" do
+    let(:votings_count) { 5 }
+
     context "when all votings are active" do
+      let!(:votings) do
+        create_list(:voting, votings_count, :n_votes, component: component)
+      end
+
       it "shows all votings" do
         visit_component
         expect(page).to have_selector("article.card", count: votings_count)
@@ -46,6 +47,9 @@ describe "Explore votings", type: :system do
   end
 
   describe "show page" do
+    let!(:user) { create :user, :confirmed, organization: organization }
+    let!(:voting) { create(:voting, :n_votes, component: component) }
+
     context "when the user is logged in" do
       before do
         login_as user, scope: :user
