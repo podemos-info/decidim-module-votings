@@ -4,15 +4,17 @@ require "spec_helper"
 
 describe "Explore votings", type: :system do
   include_context "with a component"
+
   let(:manifest_name) { "votings" }
 
-  let(:votings_count) { 5 }
-  let!(:votings) { create_list(:voting, votings_count, :n_votes, component: component) }
-  let!(:voting) { Decidim::Votings::Voting.where(component: component).first }
-  let!(:user) { create :user, :confirmed, organization: organization }
+  describe "index page" do
+    let(:votings_count) { 5 }
 
-  context "with index" do
     context "when all votings are active" do
+      let!(:votings) do
+        create_list(:voting, votings_count, :n_votes, component: component)
+      end
+
       it "shows all votings" do
         visit_component
         expect(page).to have_selector("article.card", count: votings_count)
@@ -43,33 +45,38 @@ describe "Explore votings", type: :system do
       end
     end
   end
-  context "with show" do
-    context "when he user is logged in" do
+
+  describe "show page" do
+    let!(:user) { create :user, :confirmed, organization: organization }
+    let!(:voting) { create(:voting, :n_votes, component: component) }
+
+    context "when the user is logged in" do
       before do
         login_as user, scope: :user
       end
 
-      context "when visiting detail" do
-        it "has button for voting" do
+      it "has button for voting" do
+        visit_component
+        click_link translated(voting.title)
+        expect(page).to have_button("Vote")
+      end
+
+      it "has a message about voting system used" do
+        visit_component
+        click_link translated(voting.title)
+        expect(page).to have_content("Agora")
+      end
+
+      context "and the user has already voted" do
+        let!(:vote) { create :vote, :confirmed, voting: voting, user: user }
+
+        before do
           visit_component
-          click_link translated(voting.title)
-          expect(page).to have_button("Vote")
         end
 
-        it "has a message about voting system used" do
-          visit_component
+        it "shows a message informing" do
           click_link translated(voting.title)
-          expect(page).to have_content("Agora")
-        end
-
-        context "when user has voted" do
-          let!(:vote) { create :vote, :confirmed, voting: voting, user: user }
-
-          it "has a message informing" do
-            visit_component
-            click_link translated(voting.title)
-            expect(page).to have_content("already voted")
-          end
+          expect(page).to have_content("already voted")
         end
       end
     end
