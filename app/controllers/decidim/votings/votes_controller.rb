@@ -6,6 +6,8 @@ module Decidim
     class VotesController < Decidim::Votings::ApplicationController
       helper_method :voting
 
+      helper VotingsHelper
+
       def show
         unless voting.started?
           raise ActionController::RoutingError, "Not Found" if params[:key] != voting.simulation_key
