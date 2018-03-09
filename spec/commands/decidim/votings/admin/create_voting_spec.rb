@@ -10,12 +10,12 @@ module Decidim
 
         let(:organization) { create(:organization) }
         let(:participatory_process) { create :participatory_process, organization: organization }
-        let(:current_feature) { create :voting_feature, participatory_space: participatory_process }
+        let(:current_component) { create :voting_component, participatory_space: participatory_process }
 
         let(:context) do
           {
             current_organization: organization,
-            current_feature: current_feature
+            current_component: current_component
           }
         end
 
@@ -60,7 +60,7 @@ module Decidim
             simulation_code: simulation_code,
             voting_system: voting_system,
             voting_domain_name: voting_domain_name,
-            current_feature: current_feature,
+            current_component: current_component,
             voting_identifier: voting_identifier,
             shared_key: shared_key,
             electoral_districts: electoral_districts
@@ -84,10 +84,10 @@ module Decidim
             expect { subject.call }.to change { Decidim::Votings::Voting.count }.by(1)
           end
 
-          it "sets the feature" do
+          it "sets the component" do
             subject.call
 
-            expect(voting.feature).to eq current_feature
+            expect(voting.component).to eq current_component
           end
 
           it "sets the electoral districts" do

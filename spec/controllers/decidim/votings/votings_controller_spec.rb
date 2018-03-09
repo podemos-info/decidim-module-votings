@@ -7,30 +7,30 @@ module Decidim
     describe VotingsController, type: :controller do
       routes { Decidim::Votings::Engine.routes }
 
-      let(:user) { create(:user, :confirmed, organization: feature.organization) }
+      let(:user) { create(:user, :confirmed, organization: component.organization) }
 
-      let(:feature) { create :voting_feature, :participatory_process }
+      let(:component) { create :voting_component, :participatory_process }
 
       let(:params) do
         {
-          feature_id: feature.id,
-          participatory_process_slug: feature.participatory_space.slug
+          component_id: component.id,
+          participatory_process_slug: component.participatory_space.slug
         }
       end
 
       before do
-        request.env["decidim.current_organization"] = feature.organization
-        request.env["decidim.current_participatory_space"] = feature.participatory_space
-        request.env["decidim.current_feature"] = feature
+        request.env["decidim.current_organization"] = component.organization
+        request.env["decidim.current_participatory_space"] = component.participatory_space
+        request.env["decidim.current_component"] = component
         sign_in user
       end
 
       context "when calling index" do
         context "with one voting" do
-          let!(:voting) { create(:voting, feature: feature) }
+          let!(:voting) { create(:voting, component: component) }
           let(:path) do
             EngineRouter
-              .main_proxy(feature)
+              .main_proxy(component)
               .voting_path(voting)
           end
 
@@ -41,10 +41,10 @@ module Decidim
         end
 
         context "with one voting not open" do
-          let!(:voting) { create(:voting, :not_started, feature: feature) }
+          let!(:voting) { create(:voting, :not_started, component: component) }
           let(:path) do
             EngineRouter
-              .main_proxy(feature)
+              .main_proxy(component)
               .voting_path(voting)
           end
 
@@ -55,7 +55,7 @@ module Decidim
         end
 
         context "with several votings" do
-          let!(:votings) { create_list(:voting, 2, feature: feature) }
+          let!(:votings) { create_list(:voting, 2, component: component) }
 
           it "redirects to the voting page" do
             get :index, params: params
@@ -65,7 +65,7 @@ module Decidim
       end
       context "when calling show" do
         context "when voting is started" do
-          let!(:voting) { create(:voting, feature: feature) }
+          let!(:voting) { create(:voting, component: component) }
 
           context "with valid key" do
             it "shows voting info" do
@@ -81,7 +81,7 @@ module Decidim
           end
         end
         context "when voting is not started" do
-          let!(:voting) { create(:voting, :not_started, feature: feature) }
+          let!(:voting) { create(:voting, :not_started, component: component) }
 
           context "with valid key" do
             it "shows voting info" do

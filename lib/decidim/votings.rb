@@ -5,7 +5,7 @@ require "decidim/votings/admin_engine"
 require "decidim/votings/engine"
 require "decidim/votings/vote_confirmation"
 require "decidim/votings/vote_confirmation_engine"
-require "decidim/votings/feature"
+require "decidim/votings/component"
 
 module Decidim
   module Votings

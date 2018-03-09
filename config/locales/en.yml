@@ -28,7 +28,7 @@ en:
         shared_key: Shared Key
         system_configuration: Voting system configuration
   decidim:
-    features:
+    components:
       votings:
         name: Votings
         settings:

@@ -6,11 +6,11 @@ module Decidim
     # participatory space.
     class Voting < Decidim::Votings::ApplicationRecord
       include Decidim::Resourceable
-      include Decidim::HasFeature
+      include Decidim::HasComponent
       include Decidim::Followable
-      include Decidim::ScopableFeature
+      include Decidim::ScopableComponent
 
-      feature_manifest_name "votings"
+      component_manifest_name "votings"
 
       mount_uploader :image, Decidim::Votings::VotingUploader
 
@@ -23,7 +23,7 @@ module Decidim
 
       has_many :electoral_districts, foreign_key: "decidim_votings_voting_id", inverse_of: :voting, dependent: :destroy
 
-      scope :for_feature, ->(feature) { where(feature: feature) }
+      scope :for_component, ->(component) { where(component: component) }
       scope :active, -> { where("? BETWEEN start_date AND end_date", DateTime.current) }
       scope :order_by_importance, -> { order(:importance) }
 

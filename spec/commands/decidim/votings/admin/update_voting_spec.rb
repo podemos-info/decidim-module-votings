@@ -16,12 +16,12 @@ module Decidim
           create(:participatory_process, organization: organization)
         end
 
-        let(:current_feature) do
-          create(:voting_feature, participatory_space: participatory_process)
+        let(:current_component) do
+          create(:voting_component, participatory_space: participatory_process)
         end
 
         let(:initial_shared_key) { "INITIAL" }
-        let(:voting) { create(:voting, feature: current_feature, shared_key: initial_shared_key) }
+        let(:voting) { create(:voting, component: current_component, shared_key: initial_shared_key) }
 
         let(:title) { Decidim::Faker::Localized.sentence(3) }
         let(:description) { Decidim::Faker::Localized.sentence(3) }

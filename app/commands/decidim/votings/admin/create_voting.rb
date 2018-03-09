@@ -24,7 +24,7 @@ module Decidim
 
         def create_voting
           Voting.create!(
-            feature: form.current_feature,
+            component: form.current_component,
             title: form.title,
             description: form.description,
             image: form.image,
