@@ -3,18 +3,18 @@
 require "spec_helper"
 
 describe "Explore votings", type: :system do
-  include_context "with a feature"
+  include_context "with a component"
   let(:manifest_name) { "votings" }
 
   let(:votings_count) { 5 }
-  let!(:votings) { create_list(:voting, votings_count, :n_votes, feature: feature) }
-  let!(:voting) { Decidim::Votings::Voting.where(feature: feature).first }
+  let!(:votings) { create_list(:voting, votings_count, :n_votes, component: component) }
+  let!(:voting) { Decidim::Votings::Voting.where(component: component).first }
   let!(:user) { create :user, :confirmed, organization: organization }
 
   context "with index" do
     context "when all votings are active" do
       it "shows all votings" do
-        visit_feature
+        visit_component
         expect(page).to have_selector("article.card", count: votings_count)
 
         votings.each do |voting|
@@ -27,17 +27,17 @@ describe "Explore votings", type: :system do
       let!(:votings) { [] }
 
       it "shows a message" do
-        visit_feature
+        visit_component
         expect(page).not_to have_selector("article.card")
         expect(page).to have_content("There is no active voting")
       end
     end
 
     context "when there are votings but all not active" do
-      let!(:votings) { create_list(:voting, votings_count, :n_votes, :not_started, feature: feature) }
+      let!(:votings) { create_list(:voting, votings_count, :n_votes, :not_started, component: component) }
 
       it "shows a message" do
-        visit_feature
+        visit_component
         expect(page).not_to have_selector("article.card")
         expect(page).to have_content("There is no active voting")
       end
@@ -51,13 +51,13 @@ describe "Explore votings", type: :system do
 
       context "when visiting detail" do
         it "has button for voting" do
-          visit_feature
+          visit_component
           click_link translated(voting.title)
           expect(page).to have_button("Vote")
         end
 
         it "has a message about voting system used" do
-          visit_feature
+          visit_component
           click_link translated(voting.title)
           expect(page).to have_content("Agora")
         end
@@ -66,7 +66,7 @@ describe "Explore votings", type: :system do
           let!(:vote) { create :vote, :confirmed, voting: voting, user: user }
 
           it "has a message informing" do
-            visit_feature
+            visit_component
             click_link translated(voting.title)
             expect(page).to have_content("already voted")
           end

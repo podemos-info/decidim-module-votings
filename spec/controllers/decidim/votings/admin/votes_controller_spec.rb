@@ -8,9 +8,9 @@ module Decidim
       describe VotesController, type: :controller do
         routes { Decidim::Votings::AdminEngine.routes }
 
-        let(:user) { create(:user, :confirmed, :admin, organization: feature.organization) }
+        let(:user) { create(:user, :confirmed, :admin, organization: component.organization) }
 
-        let(:feature) { create :voting_feature, :participatory_process }
+        let(:component) { create :voting_component, :participatory_process }
 
         let(:election_id) { "6666" }
 
@@ -20,16 +20,16 @@ module Decidim
 
         let(:params) do
           {
-            feature_id: feature.id,
-            participatory_process_slug: feature.participatory_space.slug,
+            component_id: component.id,
+            participatory_process_slug: component.participatory_space.slug,
             voting_id: voting.id,
             format: "txt"
           }
         end
 
         before do
-          request.env["decidim.current_organization"] = feature.organization
-          request.env["decidim.current_feature"] = feature
+          request.env["decidim.current_organization"] = component.organization
+          request.env["decidim.current_component"] = component
           sign_in user
         end
 
@@ -39,7 +39,7 @@ module Decidim
           let!(:simulated_vote_other) { create(:simulated_vote, voting: voting, voter_identifier: other_voter_id, user: user, simulation_code: 777) }
 
           context "when voting is not started" do
-            let(:voting) { create(:voting, :not_started, feature: feature, voting_identifier: election_id, simulation_code: 666) }
+            let(:voting) { create(:voting, :not_started, component: component, voting_identifier: election_id, simulation_code: 666) }
 
             it "shows only voter_id of simulated votes of the same simulation" do
               get :index, params: params
@@ -51,7 +51,7 @@ module Decidim
           end
 
           context "when voting has started" do
-            let(:voting) { create(:voting, feature: feature, voting_identifier: election_id, simulation_code: 666) }
+            let(:voting) { create(:voting, component: component, voting_identifier: election_id, simulation_code: 666) }
 
             it "shows only voter_id of votes without simulateds" do
               get :index, params: params

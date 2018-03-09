@@ -49,7 +49,7 @@ module Decidim
             voting_identifier: form.voting_identifier
           }
           append_shared_key(attrs)
-          voting.update_attributes!(attrs)
+          voting.update!(attrs)
         end
 
         def append_shared_key(attrs)

@@ -16,8 +16,8 @@ module Decidim
 
           can :vote, Voting do |voting|
             result = !voting.finished?
-            if result && feature_settings.remote_authorization_url.present?
-              result = Decidim::Votings::RemoteAuthorizer.new(feature_settings.remote_authorization_url).authorized?(user, voting)
+            if result && component_settings.remote_authorization_url.present?
+              result = Decidim::Votings::RemoteAuthorizer.new(component_settings.remote_authorization_url).authorized?(user, voting)
             end
             result
           end
@@ -25,8 +25,8 @@ module Decidim
 
         private
 
-        def feature_settings
-          @context.fetch(:feature_settings, nil)
+        def component_settings
+          @context.fetch(:component_settings, nil)
         end
       end
     end

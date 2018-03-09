@@ -7,27 +7,27 @@ module Decidim
     describe VotesController, type: :controller do
       routes { Decidim::Votings::Engine.routes }
 
-      let(:user) { create(:user, :confirmed, organization: feature.organization) }
+      let(:user) { create(:user, :confirmed, organization: component.organization) }
 
-      let(:feature) { create :voting_feature, :participatory_process }
+      let(:component) { create :voting_component, :participatory_process }
 
       let(:params) do
         {
-          feature_id: feature.id,
-          participatory_process_slug: feature.participatory_space.slug
+          component_id: component.id,
+          participatory_process_slug: component.participatory_space.slug
         }
       end
 
       before do
-        request.env["decidim.current_organization"] = feature.organization
-        request.env["decidim.current_participatory_space"] = feature.participatory_space
-        request.env["decidim.current_feature"] = feature
+        request.env["decidim.current_organization"] = component.organization
+        request.env["decidim.current_participatory_space"] = component.participatory_space
+        request.env["decidim.current_component"] = component
         sign_in user
       end
 
       context "when calling show" do
         context "when voting is started" do
-          let!(:voting) { create(:voting, feature: feature) }
+          let!(:voting) { create(:voting, component: component) }
 
           context "with valid key" do
             it "shows voting info" do
@@ -45,7 +45,7 @@ module Decidim
           end
         end
         context "when voting is not started" do
-          let!(:voting) { create(:voting, :not_started, feature: feature) }
+          let!(:voting) { create(:voting, :not_started, component: component) }
 
           context "with valid key" do
             it "shows voting info" do

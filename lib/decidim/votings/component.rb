@@ -1,45 +1,45 @@
 # frozen_string_literal: true
 
-Decidim.register_feature(:votings) do |feature|
-  feature.engine = Decidim::Votings::Engine
-  feature.admin_engine = Decidim::Votings::AdminEngine
-  feature.icon = "decidim/votings/icon.svg"
+Decidim.register_component(:votings) do |component|
+  component.engine = Decidim::Votings::Engine
+  component.admin_engine = Decidim::Votings::AdminEngine
+  component.icon = "decidim/votings/icon.svg"
 
-  feature.on(:before_destroy) do |instance|
-    # Code executed before removing the feature
+  component.on(:before_destroy) do |instance|
+    # Code executed before removing the component
   end
 
-  feature.register_resource do |resource|
+  component.register_resource do |resource|
     resource.model_class_name = "Decidim::Votings::Voting"
     resource.template = "decidim/votings/votings/linked_votings"
   end
 
   # These actions permissions can be configured in the admin panel
-  feature.actions = %w(vote)
+  component.actions = %w(vote)
 
-  feature.settings(:global) do |settings|
+  component.settings(:global) do |settings|
     # Add your global settings
     # Available types: :integer, :boolean
     settings.attribute :remote_authorization_url, type: :string, default: nil
   end
 
-  feature.settings(:step) do |settings|
+  component.settings(:step) do |settings|
     # Add your settings per step
   end
 
   # # Register an optional resource that can be referenced from other resources.
-  # feature.register_resource do |resource|
+  # component.register_resource do |resource|
   #   resource.model_class_name = "Decidim::<EngineName>::<ResourceName>"
   #   resource.template = "decidim/<engine_name>/<resource_view_folder>/linked_<resource_name_plural>"
   # end
 
-  feature.register_stat :some_stat do |features, start_at, end_at|
+  component.register_stat :some_stat do |components, start_at, end_at|
     # Register some stat number to the application
   end
 
-  feature.seeds do |participatory_space|
-    feature = Decidim::Feature.create!(
-      name: Decidim::Features::Namer.new(participatory_space.organization.available_locales, :votings).i18n_name,
+  component.seeds do |participatory_space|
+    component = Decidim::Component.create!(
+      name: Decidim::Components::Namer.new(participatory_space.organization.available_locales, :votings).i18n_name,
       manifest_name: :votings,
       published_at: Time.current,
       participatory_space: participatory_space
@@ -47,7 +47,7 @@ Decidim.register_feature(:votings) do |feature|
 
     3.times do
       Decidim::Votings::Voting.create!(
-        feature: feature,
+        component: component,
         title: Decidim::Faker::Localized.sentence(3),
         description: Decidim::Faker::Localized.wrapped("<p>", "</p>") do
           Decidim::Faker::Localized.sentence(4)

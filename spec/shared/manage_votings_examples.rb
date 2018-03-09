@@ -178,7 +178,7 @@ shared_examples "manage votings" do
   end
 
   context "when deleting a voting" do
-    let!(:voting2) { create(:voting, feature: current_feature) }
+    let!(:voting2) { create(:voting, component: current_component) }
 
     before do
       visit current_path

@@ -8,19 +8,19 @@ module Decidim
       describe ConfirmationsController, type: :controller do
         routes { Decidim::Votings::VoteConfirmationEngine.routes }
 
-        let(:user) { create(:user, :confirmed, organization: feature.organization) }
+        let(:user) { create(:user, :confirmed, organization: component.organization) }
 
-        let(:feature) { create :voting_feature, :participatory_process }
+        let(:component) { create :voting_component, :participatory_process }
 
         let(:election_id) { "6666" }
 
         let(:voter_id) { "6036dfb5fb227d22f8728317d572d972f67304c188281cd72319a581502a7ef2" }
 
-        let(:voting) { create(:voting, feature: feature, voting_identifier: election_id) }
+        let(:voting) { create(:voting, component: component, voting_identifier: election_id) }
 
         before do
-          request.env["decidim.current_organization"] = feature.organization
-          request.env["decidim.current_feature"] = feature
+          request.env["decidim.current_organization"] = component.organization
+          request.env["decidim.current_component"] = component
           sign_in user
         end
 

@@ -5,7 +5,7 @@ require "spec_helper"
 describe Decidim::Votings::Voting do
   let(:organization) { create(:organization) }
   let(:participatory_space) { create(:participatory_process, organization: organization) }
-  let(:feature) { create(:voting_feature, participatory_space: participatory_space) }
+  let(:component) { create(:voting_component, participatory_space: participatory_space) }
 
   let!(:parent) { create(:scope, organization: organization) }
   let!(:main) { create(:scope, parent: parent) }
@@ -41,7 +41,7 @@ describe Decidim::Votings::Voting do
     create(:scope, parent: child)
   end
 
-  let(:voting) { create(:voting, feature: feature, voting_identifier: "V", scope: main) }
+  let(:voting) { create(:voting, component: component, voting_identifier: "V", scope: main) }
 
   describe "#voting_identifier_for" do
     context "when given scope is the voting scope" do

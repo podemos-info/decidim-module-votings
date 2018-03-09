@@ -28,7 +28,7 @@ module Decidim
       end
 
       def confirm!
-        update_attributes(status: "confirmed")
+        update(status: "confirmed")
       end
 
       private

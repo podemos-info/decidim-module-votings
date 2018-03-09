@@ -4,13 +4,13 @@ require "spec_helper"
 require "cancan/matchers"
 
 describe Decidim::Votings::Abilities::CurrentUserAbility do
-  subject { described_class.new(user, feature_settings: feature_settings) }
+  subject { described_class.new(user, component_settings: component_settings) }
 
-  let(:feature_settings) { {} }
+  let(:component_settings) { {} }
   let(:user_annual_accumulated) { 0 }
   let(:remote_authorization_url) { "http://example.org/authorizations" }
   let(:voting) { create(:voting) }
-  let(:user) { create(:user, organization: voting.feature.organization) }
+  let(:user) { create(:user, organization: voting.component.organization) }
 
   context "when voting finished" do
     let(:voting) { create(:voting, start_date: Time.zone.now - 2.days, end_date: Time.zone.now - 1.day) }
@@ -26,7 +26,7 @@ describe Decidim::Votings::Abilities::CurrentUserAbility do
       end
 
       it "allows to vote" do
-        expect(feature_settings).to receive(:remote_authorization_url)
+        expect(component_settings).to receive(:remote_authorization_url)
           .at_most(:twice)
           .and_return(remote_authorization_url)
         expect(subject).to be_able_to(:vote, voting)
@@ -38,7 +38,7 @@ describe Decidim::Votings::Abilities::CurrentUserAbility do
       end
 
       it "does not allow to vote" do
-        expect(feature_settings).to receive(:remote_authorization_url)
+        expect(component_settings).to receive(:remote_authorization_url)
           .at_most(:twice)
           .and_return(remote_authorization_url)
         expect(subject).not_to be_able_to(:vote, voting)
@@ -50,7 +50,7 @@ describe Decidim::Votings::Abilities::CurrentUserAbility do
     let(:remote_authorization_url) { "" }
 
     it "allows to vote" do
-      expect(feature_settings).to receive(:remote_authorization_url)
+      expect(component_settings).to receive(:remote_authorization_url)
         .and_return(remote_authorization_url)
 
       expect(subject).to be_able_to(:vote, voting)

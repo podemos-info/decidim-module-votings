@@ -13,7 +13,7 @@ module Decidim
           return broadcast(:invalid) if form.invalid?
 
           transaction do
-            create_voting
+            @voting = create_voting
             create_electoral_districts
           end
 
@@ -23,8 +23,8 @@ module Decidim
         private
 
         def create_voting
-          @voting ||= Voting.create!(
-            feature: form.current_feature,
+          Voting.create!(
+            component: form.current_component,
             title: form.title,
             description: form.description,
             image: form.image,

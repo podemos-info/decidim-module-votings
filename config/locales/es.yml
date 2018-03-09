@@ -26,7 +26,7 @@ es:
         shared_key: Clave compartida
         system_configuration: Configuración
   decidim:
-    features:
+    components:
       votings:
         name: Votaciones
         settings:

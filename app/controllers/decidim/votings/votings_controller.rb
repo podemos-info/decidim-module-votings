@@ -17,7 +17,7 @@ module Decidim
       end
 
       def index
-        @votings = Voting.for_feature(current_feature).active.order_by_importance
+        @votings = Voting.for_component(current_component).active.order_by_importance
       end
 
       private
