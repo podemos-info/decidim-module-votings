@@ -2,6 +2,6 @@
 
 module Decidim
   module Votings
-    VERSION = "0.11.0.pre"
+    VERSION = "0.11.0.pre1"
   end
 end
