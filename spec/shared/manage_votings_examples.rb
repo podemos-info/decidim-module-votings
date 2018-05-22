@@ -14,7 +14,7 @@ shared_examples "manage votings" do
       )
 
       click_link "Add electoral district information"
-      scope_pick scopes_picker_find(:"electoral-district-fields-id-decidim-scope-id"), scope
+      scope_pick select_data_picker(:"electoral-district-fields-id-decidim-scope-id"), scope
       fill_in "Voting identifier", with: "981"
 
       click_button "Create"
@@ -93,7 +93,7 @@ shared_examples "manage votings" do
         "ca" => "La meua votació"
       )
 
-      scope_repick scopes_picker_find(:"electoral-district-fields-#{electoral_district.id}-decidim-scope-id"), scope, child_scope
+      scope_repick select_data_picker(:"electoral-district-fields-#{electoral_district.id}-decidim-scope-id"), scope, child_scope
       fill_in "Voting identifier", with: "981"
 
       click_button "Update"
