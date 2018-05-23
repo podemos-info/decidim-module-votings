@@ -3,8 +3,8 @@ PATH
   specs:
     decidim-votings (0.11.1)
       active_model_serializers
-      decidim-admin (= 0.11.1)
-      decidim-core (= 0.11.1)
+      decidim-admin (~> 0.11.a)
+      decidim-core (~> 0.11.a)
 
 GEM
   remote: https://rubygems.org/
